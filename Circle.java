@@ -11,14 +11,13 @@ public final class Circle extends Shape
 {
 	public Circle ()
 	{
-	}
-
-	public Circle (int S, int X, int Y, Color C)
-	{
-		side = S;
-		centerX = X;
-		centerY = Y;
-		color = C;
+		side = 0;
+		doubleSide = 0;
+		centerX = 0;
+		centerY = 0;
+		color = Color.WHITE;
+		isSelected = false;
+		hasVertices = false;
 	}
 
 	public Circle (Circle C)
@@ -27,26 +26,8 @@ public final class Circle extends Shape
 		centerX = C.centerX;
 		centerY = C.centerY;
 		color = C.color;
-	}
-
-	public void setRadius (int R)
-	{
-		side = R;
-	}
-
-	public int getRadius ()
-	{
-		return side;
-	}
-
-	public void modifyShape (JFrame frame, int x, int y)
-	{
-		CircleDialog circledialog = new CircleDialog (frame, true, x, y, side); 
-		if (circledialog.getAnswer() == true)
-		{
-			side = circledialog.getRadius ();
-			color = circledialog.getColor ();
-		}
+		isSelected = C.isSelected;
+		hasVertices = C.hasVertices;
 	}
 
 	public double area ()
@@ -71,14 +52,32 @@ public final class Circle extends Shape
 		g2.drawOval (centerX-side, centerY-side, 2*side, 2*side);
 		g2.setPaint (Color.BLACK);
 		g2.fillOval (centerX-1, centerY-1, 2, 2); // Draw the center point
+
+		if (this.isSelected) {
+			g2.setPaint (Color.WHITE);
+			g2.drawOval (centerX-side, centerY-side, 2*side, 2*side);
+			g2.setPaint (color);
+		}
 	}
 
-	public boolean isIn (int X, int Y)
+	public boolean isIn (int x, int y)
 	{
-		int deltaX = X - centerX;
-		int deltaY = Y - centerY;
+		int deltaX = x - centerX;
+		int deltaY = y - centerY;
 		double dist = sqrt (deltaX * deltaX + deltaY * deltaY);
-		//System.out.println ("dist = " + dist + " side = " + side);
 		return dist <= side;
+	}
+
+	public void modifyShape (JFrame frame, int x, int y)
+	{
+		System.out.println("Modifying a circle with dialog box.");
+		CircleDialog circleDialog = new CircleDialog (frame, true, x, y, side); 
+		if (circleDialog.getAnswer() == true)
+		{
+			side = circleDialog.getSide ();
+			doubleSide = side;
+			color = circleDialog.getColor ();
+		}
+		System.out.println("side: " + side + ", color: " + color);
 	}
 }

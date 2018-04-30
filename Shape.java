@@ -9,18 +9,26 @@ import javax.swing.*;
 
 public class Shape implements Comparable<Shape>
 {
-	public enum ShapeType {CIRCLE, SQUARE, RECTANGLE, EQUILATERAL, RIGHT, SCALENE};
+	public enum ShapeType { CIRCLE, EQUILATERAL, RECTANGLE, RIGHT, SCALENE, SQUARE };
 	protected int centerX;
 	protected int centerY;
 	protected int side;
+	protected double doubleSide;
 	protected Color color;
+	protected boolean isSelected;
+	protected boolean hasVertices;
 
 	public Shape ()
 	{
 		side = 0;
+		doubleSide = 0;
+		centerX = 0;
+		centerY = 0;
 		color = Color.WHITE;
+		isSelected = false;
+		hasVertices = false;
 	}
-
+	
 	public void setCenterX (int X)
 	{
 		centerX = X;
@@ -40,14 +48,30 @@ public class Shape implements Comparable<Shape>
 	{
 	}
 
-	public double area ()
+	protected double area ()
 	{
 		return 0;
 	}
 
-	public double perimeter ()
+	protected double perimeter ()
 	{
 		return 0;
+	}
+
+	protected void setVertices ()
+	{
+	}
+
+	protected void resize (double delta)
+	{
+		if (doubleSide < 10.0)
+			doubleSide = 10;
+		doubleSide += (delta * doubleSide) * .1;
+		side = (int) doubleSide;
+	}
+
+	protected void rotate (double amount) 
+	{
 	}
 
 	public void fromString (String str)
@@ -57,20 +81,20 @@ public class Shape implements Comparable<Shape>
 		{
 			centerX = Integer.parseInt(parts[0]);
 			centerY = Integer.parseInt(parts[1]);
-			if (Integer.parseInt(parts[2]) > 0)
-			{
+			if (Integer.parseInt(parts[2]) < 0) {
+				color = new Color(Integer.parseInt(parts[2]));
+				side = Integer.parseInt(parts[3]);
+			}
+			else {
 				side = Integer.parseInt(parts[2]);
 				color = new Color(Integer.parseInt(parts[3]));
 			}
-			else
-			{
-				color = new Color(Integer.parseInt(parts[3]));
-				side = Integer.parseInt(parts[2]);
-			}
+			setVertices();
+			doubleSide = (double) side;
 		}
 		catch (NumberFormatException e)
 		{
-			System.out.println ("Numeric input error");
+			//System.out.println ("Numeric input error");
 		}
 	}
 
@@ -79,8 +103,8 @@ public class Shape implements Comparable<Shape>
 		String string = new String ();
 		string += centerX + " ";
 		string += centerY + " ";
-		string += color.getRGB() + " ";
 		string += side + " ";
+		string += color.getRGB() + " ";
 		return string;
 	}
 
@@ -104,15 +128,14 @@ public class Shape implements Comparable<Shape>
 	{
 	}
 
-	public boolean isIn (int X, int Y)
+	public boolean isIn (int x, int y)
 	{
 		return false;
 	}
 
-	public void move (int deltaX, int deltaY)
+	public void move (int dx, int dy)
 	{
-		centerX += deltaX;
-		centerY += deltaY;
-		//System.out.println ("Moving shape " + deltaX + "," + deltaY + " units");
+		centerX += dx;
+		centerY += dy;
 	}
 }
