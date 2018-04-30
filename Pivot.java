@@ -9,7 +9,7 @@ public class Pivot extends GameSquare
         type = t;
         row = r;
         column = c;
-        strValue = "K";
+        strValue = "P";
         shape = new Circle(/* side, cX, cY, color */);
     }
 

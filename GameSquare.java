@@ -5,6 +5,8 @@
 public class GameSquare 
 {
     public enum SquareType { PLAYER, WALL, BLOCK, HOLE, TURNSTILE, PIVOT, STAIRS };
+    public String TypeStrings[] =  { "PLAYER", "WALL", "BLOCK", "HOLE", "TURNSTILE", "PIVOT", "STAIRS" };
+
     protected int row;
     protected int column;
     protected SquareType type;
@@ -45,6 +47,11 @@ public class GameSquare
         return type;
     }
 
+    protected String getStrValue()
+    {
+        return strValue;
+    }
+
     protected void display(Graphics g)
     {
         // TODO
@@ -52,7 +59,7 @@ public class GameSquare
 
     protected String toString()
     {
-        // TODO
+        return "[" + TypeStrings[type] + "] : row(" + row + "), column(" + column + "), " + shape.getName() + ", " + strValue;
     }
 
     public static GameSquare create(SquareType t, int r, int c)
