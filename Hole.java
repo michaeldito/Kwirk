@@ -10,16 +10,11 @@ public class Hole extends GameSquare
         row = r;
         column = c;
         strValue = "H";
-        shape = new Square(/* side, cX, cY, color */);
-    }
-
-    public void display(Graphics g)
-    {
-        // TODO
+        shape = new Square(SHAPE_SIDE, row * ROW_HEIGHT, column * COL_WIDTH, Color.BLACK);
     }
 
     public void fillHole(Graphics g)
     {
-        // TODO
+        shape.setColor(Color.WHITE);
     }
 }

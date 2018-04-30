@@ -1,5 +1,5 @@
 public class Wall extends GameSquare
-{
+{    
     public Wall()
     {
     }
@@ -10,11 +10,6 @@ public class Wall extends GameSquare
         row = r;
         column = c;
         strValue = "W";
-        shape = new Square(/* side, cX, cY, color */);
-    }
-
-    public void display(Graphics g)
-    {
-        // TODO
+        shape = new Square(SHAPE_SIDE, row * ROW_HEIGHT, column * COL_WIDTH, Color.GREEN);
     }
 }

@@ -30,6 +30,14 @@ public final class Circle extends Shape
 		hasVertices = C.hasVertices;
 	}
 
+	public Circle(int S, int cX, int cY, Color C)
+	{
+		side = S;
+		centerX = cX;
+		centerY = cY;
+		color = C;
+	}
+
 	public double area ()
 	{
 		return Math.PI * side * side;

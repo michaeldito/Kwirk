@@ -13,13 +13,8 @@ public class Turnstile extends GameSquare
         row = r;
         column = c;
         strValue = "K";
-        shape = new Square(/* side, cX, cY, color */);
+        shape = new Square(SHAPE_SIDE, CENTER_X + SHAPE_SIDE * (column + 1), CENTER_Y + SHAPE_SIDE * (row + 1), Color.BLUE);
         pivotX = pX;
         pivotY = pY;
-    }
-
-    public void display(Graphics g)
-    {
-        // TODO
     }
 }

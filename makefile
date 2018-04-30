@@ -53,6 +53,3 @@ Triangle.class: Triangle.java Shape.class
 	javac Triangle.java
 Right.class: Right.java Triangle.class
 	javac Right.java
-
-
-	# test

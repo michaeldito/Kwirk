@@ -10,16 +10,11 @@ public class Block extends GameSquare
         row = r;
         column = c;
         strValue = "B";
-        shape = new Square(/* side, cX, cY, color */);
-    }
-
-    public void display(Graphics g)
-    {
-        // TODO
+        shape = new Square(SHAPE_SIDE, CENTER_X + SHAPE_SIDE * (column + 1), CENTER_Y + SHAPE_SIDE * (row + 1), Color.YELLOW);
     }
 
     public void vanish(Graphics g)
     {
-        // TODO
+        shape.setColor(Color.WHITE);
     }
 }

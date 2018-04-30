@@ -10,10 +10,10 @@ public class Pivot extends GameSquare
         row = r;
         column = c;
         strValue = "P";
-        shape = new Circle(/* side, cX, cY, color */);
+        shape = new Circle(SHAPE_SIDE, CENTER_X + SHAPE_SIDE * (column + 1), CENTER_Y + SHAPE_SIDE * (row + 1), Color.CYAN);
     }
 
-    public void display(Graphics g)
+    public void paintComponent(Graphics2D g2)
     {
         // TODO
     }

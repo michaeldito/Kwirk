@@ -33,6 +33,14 @@ public final class Square extends Quadrilateral
         polygon = S.polygon;
     }
 
+    public Square(int S, int cX, int cY, Color C)
+    {
+        side = S;
+        centerX = cX;
+        centerY = cY;
+        color = C;
+    }
+
     /*
      * Returns the perimeter of the Square.
      *

@@ -1,7 +1,9 @@
 public class GameLevelModel
 {
-    final int NUM_ROWS = 16;
-    final int NUM_COLS = 13;
+    public enum Direction { UP, DOWN, LEFT, RIGHT };
+
+    public final int NUM_ROWS = 16;
+    public final int NUM_COLS = 18;
     
     private GameSquare grid[NUM_ROWS][NUM_COLS];
     private int playerRow;
@@ -10,7 +12,8 @@ public class GameLevelModel
     private Vector<TurnstileCollection> turnstiles;
     private Vector<BlockCollection> blocks;
 
-    public GameLevelModel(GameSquare g[NUM_ROWS][NUM_COLS], int pR, int pC, Vector<HoleCollection> h, Vector<TurnstileCollection> t, Vector<BlockCollection> b)
+    public GameLevelModel(GameSquare g[NUM_ROWS][NUM_COLS], int pR, int pC, 
+        Vector<HoleCollection> h, Vector<TurnstileCollection> t, Vector<BlockCollection> b)
     {
         grid = g;
         playerRow = pR;

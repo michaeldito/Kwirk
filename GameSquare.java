@@ -7,6 +7,10 @@ public class GameSquare
     public enum SquareType { PLAYER, WALL, BLOCK, HOLE, TURNSTILE, PIVOT, STAIRS };
     public String TypeStrings[] =  { "PLAYER", "WALL", "BLOCK", "HOLE", "TURNSTILE", "PIVOT", "STAIRS" };
 
+    public final int CENTER_X = 25;
+    public final int CENTER_Y = 25;
+    public final int SHAPE_SIDE = 35;
+
     protected int row;
     protected int column;
     protected SquareType type;
@@ -22,14 +26,14 @@ public class GameSquare
         row = r;
     }
 
-    protected void setColumn(int c)
-    {
-        column = c;
-    }
-
     protected int getRow()
     {
         return row;
+    }
+
+    protected void setColumn(int c)
+    {
+        column = c;
     }
 
     protected int getColumn()
@@ -52,9 +56,9 @@ public class GameSquare
         return strValue;
     }
 
-    protected void display(Graphics g)
+    protected void paintComponent(Graphics2D g2)
     {
-        // TODO
+        shape.paintComponent(g2);
     }
 
     protected String toString()
