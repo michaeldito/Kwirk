@@ -56,12 +56,18 @@ public class GameSquare
         return strValue;
     }
 
+    protected void setShapeCenterXY(int cX, int cY)
+    {
+        shape.setCenterX(cX);
+        shape.setCenterY(cY);
+    }
+
     protected void paintComponent(Graphics2D g2)
     {
         shape.paintComponent(g2);
     }
 
-    protected String toString()
+    public String toString()
     {
         return "[" + TypeStrings[type] + "] : row(" + row + "), column(" + column + "), " + shape.getName() + ", " + strValue;
     }

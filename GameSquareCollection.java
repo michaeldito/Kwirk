@@ -2,23 +2,27 @@ import java.util.Vector;
 
 public abstract class GameSquareCollection
 {
-    protected Vector<GameSquare> collection;
+    protected ArrayList<GameSquare> collection;
 
-    public GameSquareCollection(Vector<GameSquare> c)
+    public GameSquareCollection()
     {
-        collection = c;
+        collection = new ArrayList<GameSquare>();
     }
 
-    protected String toString()
+    protected void add(GameSquare g)
     {
-        System.out.println("Size: " + collection.size());
+        collection.add(g);
+    }
+
+    public String toString()
+    {
+        String collectionStr = "";
         for (int i = 0; i < collection.size(); i++) {
-            System.out.print("\t[Collection " + i + "]: ");
+            collectionStr += "\t[Collection " + i + "]:\n";
             for (int j = 0; j < collection[i].size(); j++) {
-                System.out.println("\t\t" + collection[i][j]);
+                collectionStr += "\t\t" + collection[i][j] + "\n";
             }
-            System.out.println();
         }
-        System.out.println();
+        return "Size: " + collection.size() + "\n" + collectionStr;
     }
 }

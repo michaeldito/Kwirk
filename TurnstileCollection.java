@@ -2,9 +2,9 @@ import java.util.Vector;
 
 public class TurnstileCollection extends GameSquareCollection
 {
-    public void TurnstileCollection(Vector<Turnstile> c)
+    public TurnstileCollection()
     {
-        super(c);
+        super();
     }
 
     public void rotateClockwise()
@@ -34,7 +34,6 @@ public class TurnstileCollection extends GameSquareCollection
 
     public String toString()
     {
-        System.out.println("[Turnstile Collection]");
-        super.toString();
+        return "[Turnstile Collection]\n" + super.toString();
     }
 }

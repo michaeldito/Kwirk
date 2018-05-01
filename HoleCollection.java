@@ -2,9 +2,9 @@ import java.util.Vector;
 
 public class HoleCollection extends GameSquareCollection
 {
-    public void HoleCollection(Vector<Hole> c)
+    public HoleCollection()
     {
-        super(c);
+        super();
     }
 
     public void fillHoles()
@@ -14,7 +14,6 @@ public class HoleCollection extends GameSquareCollection
 
     public String toString()
     {
-        System.out.println("[Hole Collection]");
-        super.toString();
+        return "[Hole Collection]\n" + super.toString();
     }
 }

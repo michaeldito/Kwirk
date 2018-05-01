@@ -2,9 +2,9 @@ import java.util.Vector;
 
 public class BlockCollection extends GameSquareCollection
 {
-    public void BlockCollection(Vector<Block> c)
+    public BlockCollection()
     {
-        super(c);
+        super();
     }
 
     public void shiftBlocks(Direction direction)
@@ -19,7 +19,6 @@ public class BlockCollection extends GameSquareCollection
 
     public String toString()
     {
-        System.out.println("[Block Collection]");
-        super.toString();
+        return "[Block Collection]\n" + super.toString();
     }
 }
