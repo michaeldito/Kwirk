@@ -6,7 +6,7 @@ clean:
 all: GameplayController.class
 
 run:
-	java GameplayController L1.csv
+	java GameplayController L2.csv
 
 bnr:
 	make clean

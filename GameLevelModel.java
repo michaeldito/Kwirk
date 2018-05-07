@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-
 import java.io.*;
 import java.awt.*;
 
@@ -160,6 +159,7 @@ public class GameLevelModel
 
     public void setBlocks(ArrayList<Blocks> bc)
     {
+        blocks = new ArrayList<Blocks>();
         for (int i = 0; i < bc.size(); i++) {
             blocks.add(new Blocks());
             for (int j = 0; j < bc.get(i).size(); j++) {
@@ -344,7 +344,7 @@ public class GameLevelModel
                     if (p.getRow() > destinationRow)
                         t.rotateClockwise();
                     else
-                        t.rotateCounterClockwise();                
+                        t.rotateCounterClockwise();
                 }
                 // if pushing left and pivot is below -> counter-clockwise
                 // if pushing right and pivot is above -> clockwise
@@ -366,6 +366,17 @@ public class GameLevelModel
             else if (direction.equals("LEFT"))
                 destinationCol--;
             else // RIGHT
+                destinationCol++;
+
+        destinationType = grid[destinationRow][destinationCol].getType();
+        if (turnstileSize == 4)
+            if (direction.equals("UP") && destinationType.equals(GameSquare.SquareType.TURNSTILE))
+                destinationRow--;
+            else if (direction.equals("DOWN") && destinationType.equals(GameSquare.SquareType.TURNSTILE))
+                destinationRow++;
+            else if (direction.equals("LEFT") && destinationType.equals(GameSquare.SquareType.TURNSTILE))
+                destinationCol--;
+            else if (direction.equals("RIGHT") && destinationType.equals(GameSquare.SquareType.TURNSTILE))// RIGHT
                 destinationCol++;
 
         movePlayer(destinationRow, destinationCol);
@@ -505,6 +516,11 @@ public class GameLevelModel
             collection.add(g);
         }
 
+        protected void clear()
+        {
+            collection = new ArrayList<GameSquare>();
+        }
+
         protected int size()
         {
             return collection.size();
@@ -589,13 +605,13 @@ public class GameLevelModel
                                                  destinationType.equals(GameSquare.SquareType.HOLE)  ||
                                                  destinationType.equals(GameSquare.SquareType.TURNSTILE));
 
-                    System.out.println("destinationIsGood:" + destinationIsGood);
+                    System.out.println("[[debug]] destinationIsGood:" + destinationIsGood);
 
                     Boolean passThroughIsGood = (passThroughType.equals(GameSquare.SquareType.EMPTY) || 
                                                  passThroughType.equals(GameSquare.SquareType.HOLE)  ||
                                                  passThroughType.equals(GameSquare.SquareType.PLAYER));
 
-                    System.out.println("passThroughIsGood: " + passThroughIsGood);
+                    System.out.println("[[debug]] passThroughIsGood: " + passThroughIsGood);
 
                     Boolean ableToRotate = destinationIsGood && passThroughIsGood;
 
@@ -676,6 +692,7 @@ public class GameLevelModel
         {
             System.out.println("[[debug]] rotating clockwise");
 
+            Turnstiles rotatedTurnstiles = new Turnstiles();
             Pivot p = getPivotSquare();
             int destinationRow, destinationCol;
             for (int i = 0; i < collection.size(); i++)
@@ -683,29 +700,49 @@ public class GameLevelModel
                 GameSquare gs = collection.get(i);
                 if (gs.getType().equals(GameSquare.SquareType.TURNSTILE))
                 {
-                    if (gs.getColumn() < p.getColumn())
+                    if (gs.getColumn() < p.getColumn()) // TS is left of PV
                     {
                         destinationRow = getDestinationRow("UP", gs.getRow());
                         destinationCol = getDestinationColumn("RIGHT", gs.getColumn());
                     }
-                    else if (gs.getColumn() > p.getColumn())
+                    else if (gs.getColumn() > p.getColumn()) // TS is right of PV
                     {
                         destinationRow = getDestinationRow("DOWN", gs.getRow());
                         destinationCol = getDestinationColumn("LEFT", gs.getColumn());
                     }
-                    else if (gs.getRow() < p.getRow())
+                    else if (gs.getRow() < p.getRow()) // TS is above PV
                     {
                         destinationRow = getDestinationRow("DOWN", gs.getRow());
                         destinationCol = getDestinationColumn("RIGHT", gs.getColumn());
                     }
-                    else // (gs.getRow() > p.getRow())
+                    else // (gs.getRow() > p.getRow()) // TS is below PV
                     {
                         destinationRow = getDestinationRow("UP", gs.getRow());
                         destinationCol = getDestinationColumn("LEFT", gs.getColumn());
                     }
-                    grid[destinationRow][destinationCol] = GameSquare.create(GameSquare.SquareType.TURNSTILE, destinationRow, destinationCol);
+                    rotatedTurnstiles.add(GameSquare.create(GameSquare.SquareType.TURNSTILE, destinationRow, destinationCol));
                     grid[gs.getRow()][gs.getColumn()] = GameSquare.create(GameSquare.SquareType.EMPTY, gs.getRow(), gs.getColumn());
-                    collection.set(i, grid[destinationRow][destinationCol]);
+                }
+                else 
+                {
+                    Pivot p2 = (Pivot) gs;
+                    rotatedTurnstiles.add(p2);
+                }
+            }
+
+            collection.clear();
+
+            for (int i = 0; i < rotatedTurnstiles.size(); i++)
+            {
+                GameSquare gs = rotatedTurnstiles.get(i);
+                if (gs.getType().equals(GameSquare.SquareType.TURNSTILE)) 
+                {
+                    grid[gs.getRow()][gs.getColumn()] = GameSquare.create(GameSquare.SquareType.TURNSTILE, gs.getRow(), gs.getColumn());
+                    collection.add((Turnstile) gs);
+                }
+                else 
+                {
+                    collection.add((Pivot) gs);
                 }
             }
         }
@@ -714,6 +751,7 @@ public class GameLevelModel
         {
             System.out.println("[[debug]] rotating counter clockwise");
 
+            Turnstiles rotatedTurnstiles = new Turnstiles();
             Pivot p = getPivotSquare();
             int destinationRow, destinationCol;
             for (int i = 0; i < collection.size(); i++)
@@ -721,29 +759,49 @@ public class GameLevelModel
                 GameSquare gs = collection.get(i);
                 if (gs.getType().equals(GameSquare.SquareType.TURNSTILE))
                 {
-                    if (gs.getColumn() < p.getColumn())
+                    if (gs.getColumn() < p.getColumn()) // TS is left of PV
                     {
                         destinationRow = getDestinationRow("DOWN", gs.getRow());
                         destinationCol = getDestinationColumn("RIGHT", gs.getColumn());
                     }
-                    else if (gs.getColumn() > p.getColumn())
+                    else if (gs.getColumn() > p.getColumn()) // TS is right of PV
                     {
                         destinationRow = getDestinationRow("UP", gs.getRow());
                         destinationCol = getDestinationColumn("LEFT", gs.getColumn());
                     }
-                    else if (gs.getRow() < p.getRow())
+                    else if (gs.getRow() < p.getRow()) // TS is above PV
                     {
                         destinationRow = getDestinationRow("DOWN", gs.getRow());
                         destinationCol = getDestinationColumn("LEFT", gs.getColumn());
                     }
-                    else // (gs.getRow() > p.getRow())
+                    else // (gs.getRow() > p.getRow()) // TS is below PV
                     {
                         destinationRow = getDestinationRow("UP", gs.getRow());
                         destinationCol = getDestinationColumn("RIGHT", gs.getColumn());
                     }
-                    grid[destinationRow][destinationCol] = GameSquare.create(GameSquare.SquareType.TURNSTILE, destinationRow, destinationCol);
+                    rotatedTurnstiles.add(GameSquare.create(GameSquare.SquareType.TURNSTILE, destinationRow, destinationCol));
                     grid[gs.getRow()][gs.getColumn()] = GameSquare.create(GameSquare.SquareType.EMPTY, gs.getRow(), gs.getColumn());
-                    collection.set(i, grid[destinationRow][destinationCol]);
+                }
+                else 
+                {
+                    Pivot p2 = (Pivot) gs;
+                    rotatedTurnstiles.add(p2);
+                }
+            }
+            
+            collection.clear();
+
+            for (int i = 0; i < rotatedTurnstiles.size(); i++)
+            {
+                GameSquare gs = rotatedTurnstiles.get(i);
+                if (gs.getType().equals(GameSquare.SquareType.TURNSTILE)) 
+                {
+                    grid[gs.getRow()][gs.getColumn()] = GameSquare.create(GameSquare.SquareType.TURNSTILE, gs.getRow(), gs.getColumn());
+                    collection.add((Turnstile) gs);
+                }
+                else 
+                {
+                    collection.add((Pivot) gs);
                 }
             }
         }
@@ -773,11 +831,14 @@ public class GameLevelModel
 
         public void fillHole(Hole hole)
         {
-            for (int i = 0; i < collection.size(); i++)
-                if (collection.get(i).equals(hole))
+            for (int i = 0; i < collection.size(); i++) {
+                Hole h = (Hole) collection.get(i);
+                if (h.equals(hole)) {
+                    System.out.println("Filling hole at (" + h.getRow() + ", " + h.getColumn() + ")");
                     collection.remove(i);
-            System.out.println("[[debug]] filling hole at (" + hole.getRow() + ", " + hole.getColumn() + ")");
-            grid[hole.getRow()][hole.getColumn()] = GameSquare.create(GameSquare.SquareType.EMPTY, hole.getRow(), hole.getColumn());
+                    grid[h.getRow()][h.getColumn()] = GameSquare.create(GameSquare.SquareType.EMPTY, h.getRow(), h.getColumn());
+                }
+            }
         }
 
         public String toString()
@@ -796,24 +857,40 @@ public class GameLevelModel
         public void shiftBlocks(String direction)
         {
             System.out.println("[[debug]] Shifting blocks " + direction);
+            System.out.println("[[debug]] block size: " + collection.size());
             int destinationRow, destinationCol;
+            ArrayList<GameSquare> blocksToRemove = new ArrayList<GameSquare>();
             for (int i = 0; i < collection.size(); i++)
             {
                 Block b = (Block) collection.get(i);
+                System.out.println("[[debug]] block location (" + b.getRow() + ", " + b.getColumn() + ")");
                 destinationRow = getDestinationRow(direction, b.getRow());
                 destinationCol = getDestinationColumn(direction, b.getColumn());
+                System.out.println("[[debug]] Destination (" + destinationRow + ", " + destinationCol + ")");
                 if (grid[destinationRow][destinationCol].getType().equals(GameSquare.SquareType.HOLE))
                 {
+                    System.out.println("[[debug]] Destination is a hole");
                     Holes h = findHolesContaining(destinationRow, destinationCol);
                     h.fillHole((Hole) grid[destinationRow][destinationCol]);
-                    //collection.remove(i);
+                    blocksToRemove.add(b);
+                    grid[b.getRow()][b.getColumn()] = GameSquare.create(GameSquare.SquareType.EMPTY, b.getRow(), b.getColumn());
                 } 
                 else
                 {
+                    System.out.println("[[debug]] Destination is a " + grid[destinationRow][destinationCol].getStrValue());
+                    System.out.println("[[debug]] Creating a block at (" + destinationRow + ", " + destinationCol + ")");
                     grid[destinationRow][destinationCol] = GameSquare.create(GameSquare.SquareType.BLOCK, destinationRow, destinationCol);
+                    System.out.println("[[debug]] Setting collection(i) to what the destination is");
+                    collection.set(i, grid[destinationRow][destinationCol]);
+                    System.out.println("[[debug]] collection(i) is a " + collection.get(i).getStrValue());
+                    System.out.println("[[debug]] Setting block location (" + b.getRow() + ", " + b.getColumn() + ") to empty");
+                    grid[b.getRow()][b.getColumn()] = GameSquare.create(GameSquare.SquareType.EMPTY, b.getRow(), b.getColumn());
+                    System.out.println("[[debug]] Grid at block is now " + grid[b.getRow()][b.getColumn()].getStrValue());
                 }
-                grid[b.getRow()][b.getColumn()] = GameSquare.create(GameSquare.SquareType.EMPTY, b.getRow(), b.getColumn());
-                collection.set(i, grid[destinationRow][destinationCol]);
+            }
+            for (int i = 0; i < blocksToRemove.size(); i++) {
+                int j = collection.indexOf((Block) blocksToRemove.get(i));
+                collection.remove(j);
             }
         }
 
