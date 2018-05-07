@@ -102,21 +102,21 @@ public class GameSquare
         return true;
     }
 
-    public static GameSquare create(SquareType t, int r, int c)
+    public static GameSquare create(SquareType squareType, int r, int c)
     {
-        if (t == SquareType.PLAYER)
+        if (squareType.equals(SquareType.PLAYER))
             return new Player(r, c);
-        else if (t == SquareType.WALL)
+        else if (squareType.equals(SquareType.WALL))
             return new Wall(r, c);
-        else if (t == SquareType.BLOCK)
+        else if (squareType.equals(SquareType.BLOCK))
             return new Block(r, c);
-        else if (t == SquareType.HOLE)
+        else if (squareType.equals(SquareType.HOLE))
             return new Hole(r, c);
-        else if (t == SquareType.TURNSTILE)
+        else if (squareType.equals(SquareType.TURNSTILE))
             return new Turnstile(r, c);
-        else if (t == SquareType.PIVOT)
+        else if (squareType.equals(SquareType.PIVOT))
             return new Pivot(r, c);
-        else if (t == SquareType.STAIRS)
+        else if (squareType.equals(SquareType.STAIRS))
             return new Stairs(r, c);
         else
             return new GameSquare(r, c);

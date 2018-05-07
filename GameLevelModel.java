@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+
 import java.io.*;
 import java.awt.*;
 
@@ -52,6 +53,68 @@ public class GameLevelModel
         playerRow = pR;
         playerColumn = pC; 
     }
+
+    // public void addToGameSquareCollection(String type, ArrayList<GameSquare> gameSquares)
+    // {
+    //     GameSquareCollection collection;
+    //     if (type.equals("HOLES"))
+    //         collection = new Holes();
+    //     else if (type.equals("TURNSTILES"))
+    //         collection = new Turnstiles();
+    //     else if (type.equals("BLOCKS"))
+    //         collection = new Blocks();
+    //     else {
+    //         System.out.println("[[debug]] Error in GameLevelModel::addGameSquareCollection(type, squares) - Invalid GameSquareCollection type");
+    //         System.out.println("[[debug]] addGameSquareCollection(type, squares) failed");
+    //         return;
+    //     }
+
+    //     for (int j = 0; j < gameSquares.size(); j++) {
+    //         GameSquare gs = gameSquares.get(i);
+    //         if (type.equals("TURNSTILES")) 
+    //         {
+    //             if (gs.getType().equals(GameSquare.SquareType.TURNSTILE)) {
+    //                 collection.add((Turnstile) gs);
+    //             }
+    //             else {
+    //                 collection.add((Pivot) gs);
+    //             }
+    //         }
+    //         else if (type.equals("HOLES"))
+    //             collection.add((Hole) gs);
+    //         else if (type.equals("BLOCKS"))
+    //             collection.add((Block) gs);
+    //     }
+    // }
+
+    // public void setGameSquareCollection(String type, ArrayList<GameSquareCollection> gameSquareCollection)
+    // {
+    //     ArrayList<GameSquareCollection> collection;
+    //     if (type.equals("HOLES"))
+    //         collection = holes;
+    //     else if (type.equals("TURNSTILES"))
+    //         collection = turnstiles;
+    //     else if (type.equals("BLOCKS"))
+    //         collection = blocks;
+    //     else 
+    //     {
+    //         System.out.println("[[debug]] Error in GameLevelModel::setGameSquareCollection(type, squares) - Invalid GameSquareCollection type");
+    //         System.out.println("[[debug]] setGameSquareCollection(type, squares) failed");
+    //         return;
+    //     }
+
+    //     for (int i = 0; j < gameSquareCollection.size(); i++) 
+    //     {
+    //         if (type.equals("HOLES"))
+    //             collection.add(new Holes());
+    //         else if (type.equals("TURNSTILES"))
+    //             collection.add(new Turnstiles());
+    //         else if (type.equals("BLOCKS"))
+    //             collection.add(new Blocks());
+    //         for (int j = 0; j < gameSquareCollection.get(i).size(); j++)
+    //             collection.get(i).add(gameSquareCollection.get(i).get(j));
+    //     }
+    // }
 
     public void setHoles(ArrayList<Holes> hc)
     {
