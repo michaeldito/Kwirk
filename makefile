@@ -3,15 +3,18 @@ GAMESQUARES = GameSquare.class Player.class Wall.class Hole.class Turnstile.clas
 clean:
 	rm *.class
 
-all: GameplayController.class
+all: Application.class
 
 run:
-	java GameplayController L2.csv
+	java Application L2.csv
 
 bnr:
 	make clean
 	make all
 	make run
+
+# Application
+Application.class: Application.java GameLevelModel.class LevelBuilder.class View.class GameplayController.class
 
 # Builder
 LevelBuilder.class: LevelBuilder.java GameLevelModel.class
@@ -25,6 +28,8 @@ GameState.class: GameState.java GameLevelModel.class
 	javac GameState.java
 
 # View
+View.class: View.java
+	javac View.java
 
 # Controllers
 GameplayController.class: GameplayController.java GameLevelModel.class

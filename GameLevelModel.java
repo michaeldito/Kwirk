@@ -4,6 +4,8 @@ import java.awt.*;
 
 public class GameLevelModel
 {
+    private View view;
+
     public final static int NUM_ROWS = 16;
     public final static int NUM_COLS = 18;
     
@@ -38,6 +40,11 @@ public class GameLevelModel
         setHoles(hc);
         setTurnstiles(tc);
         setBlocks(bc);
+    }
+
+    public void setView(View v)
+    {
+        view = v;
     }
 
     public void setGrid(GameSquare[][] g)
@@ -497,9 +504,11 @@ public class GameLevelModel
         "\nTurnstiles:\n" + turnstilesStr2;   
     }
 
-    public void display(Graphics2D g)
+    public void display(Graphics2D g2)
     {
-        // TODO
+        for (int i = 0; i < NUM_ROWS; i++)
+            for (int j = 0; j < NUM_COLS; j++)
+                grid[i][j].paintComponent(g2);
     }
 
     public abstract class GameSquareCollection

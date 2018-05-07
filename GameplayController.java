@@ -5,41 +5,26 @@ import javax.swing.*;
 
 public class GameplayController //implements KeyListener
 {
-  public GameLevelModel currentLevel;
-  private GameLevelModel currentLevelBackup;
+  public GameLevelModel currentLevelModel;
+  private GameLevelModel currentLevelModelBackup;
   private Queue<GameLevelModel> levels;
   private Stack<GameLevelModel> states;
+  private View view;
+
 
   public GameplayController()
   {
-    currentLevel = new GameLevelModel();
-    currentLevelBackup = new GameLevelModel();
+    currentLevelModel = new GameLevelModel();
+    currentLevelModelBackup = new GameLevelModel();
     levels = new LinkedList<GameLevelModel>();
     states = new Stack<GameLevelModel>();
-   // addKeyListener(this);
   }
-
-  // public void keyPressed(KeyEvent e) 
-  // {
-  //   int keyCode = e.getKeyCode();
-  //   if (keyCode == KeyEvent.VK_DOWN)
-  //     move("DOWN");
-  //   if (keyCode == KeyEvent.VK_UP)
-  //     move("UP");
-  //   if (keyCode == KeyEvent.VK_LEFT)
-  //     move("LEFT");
-  //   if (keyCode == KeyEvent.VK_RIGHT)
-  //     move("RIGHT");
-  // }
-
-  // public void keyReleased(KeyEvent e) {}
-  // public void keyTyped(KeyEvent e) {}
 
   public void move(String direction)
   {
-    if (currentLevel.ableToMove(direction)) {
+    if (currentLevelModel.ableToMove(direction)) {
       System.out.println("[[debug]] Valid move");
-      currentLevel.move(direction);
+      currentLevelModel.move(direction);
     }
     else
       System.out.println("[[debug]] Invalid move");
@@ -47,23 +32,52 @@ public class GameplayController //implements KeyListener
 
   public void getNextLevel()
   {
-    currentLevel = levels.remove();
+    currentLevelModel = levels.remove();
   }
 
   public void restartLevel()
   {
-    currentLevel = currentLevelBackup;
+    currentLevelModel = currentLevelModelBackup;
   }
 
   public void undoMove()
   {
-    currentLevel = states.pop();
+    currentLevelModel = states.pop();
   }
 
-  public void addModel(GameLevelModel model)
+  public void addModel(GameLevelModel m)
   {
-    currentLevel = model;
+    currentLevelModel = m;
   }
+
+  public void addView(View v)
+  {
+    view = v;
+  }
+
+  public KeyListener getGamePanelKeyListener()
+  {
+    return
+      new KeyAdapter() {
+        public void keyPressed(KeyEvent e)
+        {
+          int keyCode = e.getKeyCode();
+          if (keyCode == KeyEvent.VK_UP)
+            move("UP");
+          else if (keyCode == KeyEvent.VK_DOWN)
+            move("DOWN");
+          else if (keyCode == KeyEvent.VK_LEFT)
+            move("LEFT");
+          else if (keyCode == KeyEvent.VK_RIGHT)
+            move("RIGHT");
+        }
+      };
+  }
+
+  public void displayGame()
+  {
+  }
+
 
   public static void main(String[] args)
   {
@@ -74,7 +88,7 @@ public class GameplayController //implements KeyListener
     Scanner scanner = new Scanner(System.in);
     while (! model.isLevelComplete())
     {
-      System.out.println(controller.currentLevel);
+      System.out.println(controller.currentLevelModel);
       String direction = scanner.nextLine();
       if (direction.equals("w"))
         controller.move("UP");
