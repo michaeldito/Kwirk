@@ -35,6 +35,15 @@ public final class Right extends Triangle
 		}  
 	}
 
+	public Right(int S, int cX, int cY, Color C)
+	{
+			side = S;
+			side2 = side / 2;
+			centerX = cX;
+			centerY = cY;
+			color = C;
+	}
+
 	public void setVertices ()
 	{
 		if (! hasVertices) {
@@ -65,21 +74,6 @@ public final class Right extends Triangle
         if (angle != 0)
             rotate(angle);
 		polygon = new Polygon (vertexX, vertexY, 3);
-	}
-
-	public double perimeter ()
-	{
-		return side + side2 + sqrt (side * side + side2 * side2);
-	}
-
-	public double area ()
-	{
-		return side * side2 / 2;
-	}
-
-	public String getName ()
-	{
-		return "Right";
 	}
 
 	public void fromString (String str)
@@ -121,28 +115,18 @@ public final class Right extends Triangle
 	public String toString ()
 	{
 		String string = new String ();
-		string += centerX + " ";
-		string += centerY + " ";
-		string += side + " ";
-		string += side2 + " ";
-		string += color.getRGB() + " ";
-		string += angle + " ";
+		string += "Center X = ";
+		string += centerX + "; ";
+		string += "Center Y = ";
+		string += centerY + "; ";
+		string += "Side = ";
+		string += side + "; ";
+		string += "Side2 = ";
+		string += side2 + "; ";
+		string += "Color = ";
+		string += color.getRGB() + "; ";
+		string += "Angle = ";
+		string += angle + "; ";
 		return string;
-	}
-
-	public void modifyShape (JFrame frame, int x, int y)
-	{
-		RightDialog rightDialog = new RightDialog (frame, true, x, y, side, side2, angle); 
-		if (rightDialog.getAnswer() == true)
-		{
-			side = rightDialog.getSide ();
-			doubleSide = (double) side;
-			side2 = rightDialog.getSide2();
-			doubleSide2 = (double) side2;
-			angle = Math.toRadians(rightDialog.getAngle ());
-			color = rightDialog.getColor ();
-			setVertices ();
-			rotate(angle);
-		}
 	}
 }	

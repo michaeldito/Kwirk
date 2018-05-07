@@ -1,15 +1,17 @@
+import java.awt.*;
+
 public class Stairs extends GameSquare
 {
     public Stairs()
     {
     }
 
-    public Stairs(SquareType t, int r, int c)
+    public Stairs(int r, int c)
     {
-        type = t;
+        type = SquareType.STAIRS;
         row = r;
         column = c;
-        strValue = "W";
+        strValue = "$$";
         shape = new Right(SHAPE_SIDE, CENTER_X + SHAPE_SIDE * (column + 1), CENTER_Y + SHAPE_SIDE * (row + 1), Color.ORANGE);
     }
 }

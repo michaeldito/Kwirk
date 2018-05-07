@@ -41,39 +41,6 @@ public final class Square extends Quadrilateral
         color = C;
     }
 
-    /*
-     * Returns the perimeter of the Square.
-     *
-     * @param 	    none
-     * @return		double
-     */
-    public double perimeter ()
-    {
-        return 4 * side;
-    }
-
-    /*
-     * Returns the area of the Square.
-     *
-     * @param 	    none
-     * @return		double
-     */
-    public double area ()
-    {
-        return side * side;
-    }
-
-    /*
-     * Returns the name of the object.
-     *
-     * @param 	    none
-     * @return		String
-     */
-    public String getName ()
-    {
-        return "Square";
-    }
-
     public void setVertices()
     {        
         if (! hasVertices) {
@@ -137,17 +104,4 @@ public final class Square extends Quadrilateral
 			//System.out.println ("Numeric input error");
 		}
     }
-    public void modifyShape (JFrame frame, int x, int y)
-	{
-		SquareDialog squareDialog = new SquareDialog (frame, true, x, y, side, angle); 
-		if (squareDialog.getAnswer() == true)
-		{
-            side = squareDialog.getSide ();
-            doubleSide = (double) side;
-			angle = Math.toRadians(squareDialog.getAngle ());
-			color = squareDialog.getColor ();
-            setVertices ();
-            rotate(angle);
-		}
-	}
 }

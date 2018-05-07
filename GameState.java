@@ -6,6 +6,7 @@ public class GameState
 
     public GameState()
     {
+        states = new Stack<GameLevelModel>();
     }
     
     public GameLevelModel getPreviousState()
@@ -20,6 +21,6 @@ public class GameState
 
     public void clear()
     {
-        states = new Stack<GameLevelModel>;
+        states = new Stack<GameLevelModel>();
     }
 }

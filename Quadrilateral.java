@@ -31,17 +31,6 @@ public class Quadrilateral extends Shape
             g2.setPaint (color);
         }
     }
-
-    /*
-     * Returns the name of the object.
-     *
-     * @param 	    none
-     * @return		String
-     */
-    public String getName()
-    {
-        return "Quadrilateral";
-    }
     
     public boolean isIn (int x, int y)
     {
@@ -65,15 +54,20 @@ public class Quadrilateral extends Shape
 
 	public String toString ()
 	{
-		String string = new String ();
-		string += centerX + " ";
-		string += centerY + " ";
-        string += color.getRGB() + " ";
-        string += angle + " ";
-		string += doubleVertexX[0] + " " + doubleVertexY[0] + " ";
-		string += doubleVertexX[1] + " " + doubleVertexY[1] + " ";
-        string += doubleVertexX[2] + " " + doubleVertexY[2] + " ";
-        string += doubleVertexX[3] + " " + doubleVertexY[3] + " ";
+        String string = new String ();
+        string += "Center X = ";
+        string += centerX + "; ";
+        string += "Center Y = ";
+        string += centerY + "; ";
+        string += "Color = ";
+        string += color.getRGB() + "; ";
+        string += "Angle = ";
+        string += angle + "; ";
+        string += "Vertices (x, y) = ";
+		string += "(" + doubleVertexX[0] + ", " + doubleVertexY[0] + ") ";
+		string += "(" + doubleVertexX[1] + ", " + doubleVertexY[1] + ") ";
+        string += "(" + doubleVertexX[2] + ", " + doubleVertexY[2] + ") ";
+        string += "(" + doubleVertexX[3] + ", " + doubleVertexY[3] + ") ";
 		return string;
     }
     
@@ -124,12 +118,5 @@ public class Quadrilateral extends Shape
             vertexY[i] = (int) (doubleVertexY[i] + .5);
         }
         polygon = new Polygon(vertexX, vertexY, 4);
-    }
-
-    public void setDoubleVertices() {
-        for (int i = 0; i < 4; i++) {
-            doubleVertexX[i] = vertexX[i];
-            doubleVertexY[i] = vertexY[i];
-        }
     }
 }

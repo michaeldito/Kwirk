@@ -101,9 +101,13 @@ public class Shape implements Comparable<Shape>
 	public String toString ()
 	{
 		String string = new String ();
-		string += centerX + " ";
-		string += centerY + " ";
-		string += side + " ";
+		string += "Center X = ";
+		string += centerX + "; ";
+		string += "Center Y = ";
+		string += centerY + "; ";
+		string += "Side = ";
+		string += side + "; ";
+		string += "Color: ";
 		string += color.getRGB() + " ";
 		return string;
 	}

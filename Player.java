@@ -1,15 +1,24 @@
+import java.awt.*;
+
 public class Player extends GameSquare
 {
     public Player()
     {
     }
 
-    public Player(SquareType t, int r, int c)
+    public Player(int r, int c)
     {
-        type = t;
+        type = SquareType.PLAYER;
         row = r;
         column = c;
-        strValue = "K";
+        strValue = "KW";
         shape = new Circle(SHAPE_SIDE, CENTER_X + SHAPE_SIDE * (column + 1), CENTER_Y + SHAPE_SIDE * (row + 1), Color.RED);
+    }
+
+    public static void main(String[] args)
+    {
+        GameSquare gs = GameSquare.create(SquareType.PLAYER, 0, 0);
+        System.out.println(gs);
+
     }
 }

@@ -1,46 +1,54 @@
+GAMESQUARES = GameSquare.class Player.class Wall.class Hole.class Turnstile.class Pivot.class Stairs.class
+
+clean:
+	rm *.class
+
+all: GameplayController.class
+
+run:
+	java GameplayController L1.csv
+
+bnr:
+	make clean
+	make all
+	make run
+
+# Builder
+LevelBuilder.class: LevelBuilder.java GameLevelModel.class
+	javac LevelBuilder.java
+
 # Model
-GameLevelModel.class: GameLevelModel.java
+GameLevelModel.class: GameLevelModel.java $(GAMESQUARES)
 	javac GameLevelModel.java
 
-GameState.class: GameState.java
+GameState.class: GameState.java GameLevelModel.class
 	javac GameState.java
 
 # View
 
 # Controllers
+GameplayController.class: GameplayController.java GameLevelModel.class
+	javac GameplayController.java
 
 # GameSquares
-
 GameSquare.class: GameSquare.java
 	javac GameSquare.java
-Player.class: Player.java GameSquare.class
+Player.class: Player.java GameSquare.class Circle.class
 	javac Player.java
-Wall.class: Wall.java GameSquare.class
+Wall.class: Wall.java GameSquare.class Square.class
 	javac Wall.java
-Block.class: Block.java GameSquare.class
+Block.class: Block.java GameSquare.class Square.class
 	javac Block.java
-Hole.class: Hole.java GameSquare.class
+Hole.class: Hole.java GameSquare.class Square.class
 	javac Hole.java
-Turnstile.class: Turnstile.java GameSquare.class
+Turnstile.class: Turnstile.java GameSquare.class Square.class
 	javac Turnstile.java
-Pivot.class: Pivot.java Turnstile.class GameSquare.class
+Pivot.class: Pivot.java Turnstile.class GameSquare.class Circle.class
 	javac Pivot.java
-Stairs.class: Stairs.java GameSquare.class
+Stairs.class: Stairs.java GameSquare.class Right.class
 	javac Stairs.java
 
-# Collections
-
-BlockCollection.class: BlockCollection.java Block.class 
-	javac BlockCollection
-GameSquareCollection.class: GameSquareCollection.java GameSquare.class
-	javac GameSquareCollection
-HoleCollection: HoleCollection.java Hole.class
-	javac HoleCollection.java
-TurnstileCollection.class: TurnstileCollection.java Turnstile.class Pivot.class
-	javac TurnstileCollection.java
-
 # Shapes
-
 Shape.class: Shape.java
 	javac Shape.java
 Circle.class: Circle.java Shape.class

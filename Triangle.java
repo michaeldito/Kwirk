@@ -120,15 +120,4 @@ public class Triangle extends Shape
 		}
 		polygon = new Polygon(vertexX, vertexY, 3);
 	}
-
-	public double area() {
-		return 0;
-	}
-
-	public void setDoubleVertices() {
-		for (int i = 0; i < 3; i++) {
-			doubleVertexX[i] = vertexX[i];
-			doubleVertexY[i] = vertexY[i];
-		}
-	}
 }

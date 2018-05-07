@@ -1,19 +1,21 @@
+import java.awt.*;
+
 public class Hole extends GameSquare
 {
     public Hole()
     {
     }
 
-    public Hole(SquareType t, int r, int c)
+    public Hole(int r, int c)
     {
-        type = t;
+        type = SquareType.HOLE;
         row = r;
         column = c;
-        strValue = "H";
-        shape = new Square(SHAPE_SIDE, row * ROW_HEIGHT, column * COL_WIDTH, Color.BLACK);
+        strValue = "[]";
+        shape = new Square(SHAPE_SIDE, CENTER_X + SHAPE_SIDE * (column + 1), CENTER_Y + SHAPE_SIDE * (row + 1), Color.BLACK);
     }
 
-    public void fillHole(Graphics g)
+    public void fillHole()
     {
         shape.setColor(Color.WHITE);
     }
