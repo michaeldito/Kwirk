@@ -3,10 +3,10 @@ GAMESQUARES = GameSquare.class Player.class Wall.class Hole.class Turnstile.clas
 clean:
 	rm *.class
 
-all: Application.class
+all: GameplayController.class #Application.class
 
 run:
-	java Application L2.csv
+	java GameplayController L1.csv L2.csv L3.csv L4.csv#L5.csv
 
 bnr:
 	make clean

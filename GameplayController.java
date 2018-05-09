@@ -10,7 +10,7 @@ public class GameplayController //implements KeyListener
   private Queue<GameLevelModel> levels;
   private Stack<GameLevelModel> states;
   private View view;
-
+  public Boolean hasMoreLevels = true;
 
   public GameplayController()
   {
@@ -22,17 +22,21 @@ public class GameplayController //implements KeyListener
 
   public void move(String direction)
   {
+    System.out.println("========================================================");
     if (currentLevelModel.ableToMove(direction)) {
-      System.out.println("[[debug]] Valid move");
+      System.out.println("[debug] ableToMove() => true");
       currentLevelModel.move(direction);
     }
     else
-      System.out.println("[[debug]] Invalid move");
+    System.out.println("[debug] ableToMove() => false");
   }
 
-  public void getNextLevel()
+  public GameLevelModel getNextLevel()
   {
     currentLevelModel = levels.remove();
+    if (levels.size() == 0)
+      hasMoreLevels = false;
+    return currentLevelModel;
   }
 
   public void restartLevel()
@@ -47,7 +51,7 @@ public class GameplayController //implements KeyListener
 
   public void addModel(GameLevelModel m)
   {
-    currentLevelModel = m;
+    levels.add(m);
   }
 
   public void addView(View v)
@@ -82,27 +86,31 @@ public class GameplayController //implements KeyListener
   public static void main(String[] args)
   {
     LevelBuilder builder = new LevelBuilder();
-    GameLevelModel model = builder.buildOneLevel(args[0]);
     GameplayController controller = new GameplayController();
-    controller.addModel(model);
-    Scanner scanner = new Scanner(System.in);
-    while (! model.isLevelComplete())
-    {
-      System.out.println(controller.currentLevelModel);
-      String direction = scanner.nextLine();
-      if (direction.equals("w"))
-        controller.move("UP");
-      else if (direction.equals("s"))
-        controller.move("DOWN");
-      else if (direction.equals("a"))
-        controller.move("LEFT");
-      else if (direction.equals("d"))
-        controller.move("RIGHT");
-      else
-        System.out.println("[[debug]] Invalid move! use a w s d");
+    for (int i = 0; i < args.length; i++) {
+      GameLevelModel model = builder.buildOneLevel(args[i]);
+      controller.addModel(model);
     }
-    System.out.println("\nYou win!\n");
+    Scanner scanner = new Scanner(System.in);
+    while (controller.hasMoreLevels) {
+      GameLevelModel model = controller.getNextLevel();
+      while (! model.isLevelComplete())
+      {
+        System.out.println(controller.currentLevelModel);
+        String direction = scanner.nextLine();
+        if (direction.equals("w"))
+          controller.move("UP");
+        else if (direction.equals("s"))
+          controller.move("DOWN");
+        else if (direction.equals("a"))
+          controller.move("LEFT");
+        else if (direction.equals("d"))
+          controller.move("RIGHT");
+        else
+          System.out.println("[debug] Invalid move! use a w s d");
+      }
+      System.out.println("\nYou win!\n");
+    }
     scanner.close();
   }
-
 }

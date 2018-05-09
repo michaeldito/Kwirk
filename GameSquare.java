@@ -18,7 +18,7 @@ public class GameSquare
         }
     };
 
-    public String TypeStrings[] =  { "PLAYER", "WALL", "BLOCK", "HOLE", "TURNSTILE", "PIVOT", "STAIRS", "EMPTY" };
+    public static String TypeStrings[] =  { "PLAYER", "WALL", "BLOCK", "HOLE", "TURNSTILE", "PIVOT", "STAIRS", "EMPTY" };
 
     protected final int CENTER_X = 25;
     protected final int CENTER_Y = 25;

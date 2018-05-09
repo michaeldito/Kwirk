@@ -8,7 +8,7 @@ class GamePanel extends JPanel
     public GamePanel(GameLevelModel m)
     {
         model = m;
-        setPreferredSize(Dimension(500, 500));
+        //setPreferredSize(Dimension(500, 500));
     }
 
     public void paint(Graphics g)
