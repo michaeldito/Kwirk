@@ -37,11 +37,12 @@ public final class Right extends Triangle
 
 	public Right(int S, int cX, int cY, Color C)
 	{
-			side = S;
-			side2 = side / 2;
-			centerX = cX;
-			centerY = cY;
-			color = C;
+		side = S;
+		side2 = side / 2;
+		centerX = cX;
+		centerY = cY;
+		color = C;
+		setVertices();
 	}
 
 	public void setVertices ()

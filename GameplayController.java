@@ -29,6 +29,7 @@ public class GameplayController //implements KeyListener
     }
     else
     System.out.println("[debug] ableToMove() => false");
+    view.repaint();
   }
 
   public GameLevelModel getNextLevel()
@@ -51,7 +52,7 @@ public class GameplayController //implements KeyListener
 
   public void addModel(GameLevelModel m)
   {
-    levels.add(m);
+    currentLevelModel = m;
   }
 
   public void addView(View v)
@@ -66,20 +67,30 @@ public class GameplayController //implements KeyListener
         public void keyPressed(KeyEvent e)
         {
           int keyCode = e.getKeyCode();
-          if (keyCode == KeyEvent.VK_UP)
+          if (keyCode == KeyEvent.VK_UP) {
+            System.out.println("Pressed: UP");
             move("UP");
-          else if (keyCode == KeyEvent.VK_DOWN)
+          }
+          else if (keyCode == KeyEvent.VK_DOWN) {
+            System.out.println("Pressed: DOWN");
             move("DOWN");
-          else if (keyCode == KeyEvent.VK_LEFT)
+          }
+          else if (keyCode == KeyEvent.VK_LEFT) {
+            System.out.println("Pressed: LEFT");
             move("LEFT");
-          else if (keyCode == KeyEvent.VK_RIGHT)
+          }
+          else if (keyCode == KeyEvent.VK_RIGHT) {
+            System.out.println("Pressed: RIGHT");
             move("RIGHT");
+          }
         }
       };
   }
 
   public void displayGame()
   {
+    //System.out.println(currentLevelModel);
+    view.repaint();
   }
 
 

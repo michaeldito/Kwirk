@@ -8,13 +8,13 @@ class GamePanel extends JPanel
     public GamePanel(GameLevelModel m)
     {
         model = m;
-        //setPreferredSize(Dimension(500, 500));
+        setPreferredSize(new Dimension(715, 650));
     }
 
     public void paint(Graphics g)
     {
         super.paint(g);
-        setBackground(Color.RED);
+       // setBackground(Color.RED);
         model.display((Graphics2D) g);
     }
 }

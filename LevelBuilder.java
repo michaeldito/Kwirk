@@ -37,9 +37,10 @@ public class LevelBuilder
                 grid[i][j] = GameSquare.create(GameSquare.SquareType.EMPTY, i, j);
             else if (squareCode.equals("KW")) {
                 grid[i][j] = GameSquare.create(GameSquare.SquareType.PLAYER, i, j);
+                System.out.println("Setting player position at (" + i + ", " + j + ")");
                 model.setPlayerPosition(i, j);
             }
-            else
+            else if (squareCode.equals("SR"))
                 grid[i][j] = GameSquare.create(GameSquare.SquareType.STAIRS, i, j);
           }
         }
@@ -91,6 +92,7 @@ public class LevelBuilder
           }
         }
       inFile.close();
+      System.out.println("LevelBuilder: Complete");
       return model;
     }
     catch (IOException e)

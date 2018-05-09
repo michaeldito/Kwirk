@@ -39,6 +39,7 @@ public final class Square extends Quadrilateral
         centerX = cX;
         centerY = cY;
         color = C;
+        setVertices();
     }
 
     public void setVertices()

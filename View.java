@@ -36,7 +36,12 @@ public class View extends JFrame
         gamePanel.addKeyListener(controller.getGamePanelKeyListener());
         Container contentPane = getContentPane();
         contentPane.add(gamePanel);
+
+        addKeyListener(controller.getGamePanelKeyListener());
+
+        pack();
         controller.displayGame();
+
     }
 
     public void paint(Graphics g)

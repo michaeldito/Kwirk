@@ -40,7 +40,7 @@ public class GameSquare
         column = c;
         type = SquareType.EMPTY;
         strValue = "  ";
-        shape = null;
+        shape = new Square(SHAPE_SIDE, CENTER_X + SHAPE_SIDE * (column + 1), CENTER_Y + SHAPE_SIDE * (row + 1), Color.WHITE);
     }
 
     protected void setRow(int r) 

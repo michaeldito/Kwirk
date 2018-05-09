@@ -42,7 +42,7 @@ public class GameLevelModel
         setBlocks(bc);
     }
 
-    public void setView(View v)
+    public void addView(View v)
     {
         view = v;
     }
@@ -218,7 +218,8 @@ public class GameLevelModel
     }
     public Boolean ableToMove(String direction)
     {
-        System.out.println("[debug] Checking if able to move.");
+        System.out.println("[debug] Checking if able to move " + direction);
+        System.out.println("[debug] Player is at (" + playerRow + ", " + playerColumn + ")");
 
         int destinationRow = getDestinationRow(direction, playerRow);
         int destinationCol = getDestinationColumn(direction, playerColumn);
@@ -297,7 +298,7 @@ public class GameLevelModel
         }
         else
         {
-            System.out.println("ERROR IN GameLevelModel::ableToMove(dir) - destination is out of bounds");
+            System.out.println("[ERROR] in GameLevelModel::ableToMove(dir) - destination is out of bounds");
             return false;
         }
     }
@@ -504,9 +505,9 @@ public class GameLevelModel
         turnstilesStr2 += "\n]";
 
         return "========================================================\n[GameLevelModel]\n" + 
-        // "\n> " + holesStr + 
-        // "> " + turnstilesStr + 
-        // "> " + blocksStr + 
+       // "\n> " + holesStr + 
+       // "> " + turnstilesStr + 
+       // "> " + blocksStr + 
         "\n> " + "Grid\n" + gridStr +
         "\nPlayer Location: (" + playerRow + ", " + playerColumn +")" +
         "\nHoles:\n" + holesStr2 + 

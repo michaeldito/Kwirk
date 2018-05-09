@@ -1,4 +1,5 @@
 GAMESQUARES = GameSquare.class Player.class Wall.class Hole.class Turnstile.class Pivot.class Stairs.class
+all: Application.class
 
 submit:
 	mkdir ditoP
@@ -18,10 +19,10 @@ submit:
 clean:
 	rm *.class
 
-all: GameplayController.class #Application.class
+
 
 run:
-	java GameplayController L1.csv L2.csv L3.csv L4.csv#L5.csv
+	java Application L3.csv
 
 bnr:
 	make clean
@@ -30,6 +31,7 @@ bnr:
 
 # Application
 Application.class: Application.java GameLevelModel.class LevelBuilder.class View.class GameplayController.class
+	javac Application.java
 
 # Builder
 LevelBuilder.class: LevelBuilder.java GameLevelModel.class
