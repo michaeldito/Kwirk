@@ -1,5 +1,20 @@
 GAMESQUARES = GameSquare.class Player.class Wall.class Hole.class Turnstile.class Pivot.class Stairs.class
 
+submit:
+	mkdir ditoP
+	make all
+	cp *.class ditoP
+	cp makefile ditoP
+	cp manifest.txt ditoP
+	cp ditoPI.pdf ditoP
+	cp ditoPN.pdf ditoP
+	cp ditoP.txt ditoP
+	cp L[1-5].csv ditoP
+	cd ditoP
+	jar cvmf ditoP/manifest.txt ditoP.jar *.class ditoP/L[1-5].csv
+	tar cfvz ditoP.tgz ditoP
+	cp ditoP.tgz ~tiawatts/cs360drop
+	
 clean:
 	rm *.class
 
