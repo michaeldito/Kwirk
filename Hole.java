@@ -2,6 +2,9 @@ import java.awt.*;
 
 public class Hole extends GameSquare
 {
+    private boolean coveredByTurnstile = false;
+    public boolean isCovered() { return coveredByTurnstile; }
+
     public Hole()
     {
     }
@@ -18,5 +21,15 @@ public class Hole extends GameSquare
     public void fillHole()
     {
         shape.setColor(Color.WHITE);
+    }
+
+    public void cover()
+    {
+        coveredByTurnstile = true;
+    }
+
+    public void uncover()
+    {
+        coveredByTurnstile = false;
     }
 }
