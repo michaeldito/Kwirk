@@ -111,7 +111,7 @@ public class GameSquare
         int startX, startY, endX, endY;
         startX = SHAPE_SIDE * (column + 1);
         startY = CENTER_Y + SHAPE_SIDE * (row + 1)  - SHAPE_SIDE/2;
-        endX = CENTER_X + SHAPE_SIDE * (column + 1) + SHAPE_SIDE;
+        endX = CENTER_X + SHAPE_SIDE * (column + 1) + SHAPE_SIDE/2;
         endY = CENTER_Y + SHAPE_SIDE * (row + 1)  - SHAPE_SIDE/2;
         g2.drawLine(startX, startY, endX, endY);
     }
@@ -122,7 +122,7 @@ public class GameSquare
         int startX, startY, endX, endY;
         startX = SHAPE_SIDE * (column + 1);
         startY = CENTER_Y + SHAPE_SIDE * (row + 1)  + SHAPE_SIDE/2;
-        endX = CENTER_X + SHAPE_SIDE * (column + 1) + SHAPE_SIDE;
+        endX = CENTER_X + SHAPE_SIDE * (column + 1) + SHAPE_SIDE/2;
         endY = CENTER_Y + SHAPE_SIDE * (row + 1)  + SHAPE_SIDE/2;
         g2.drawLine(startX, startY, endX, endY);
     }
@@ -143,9 +143,9 @@ public class GameSquare
     {
         g2.setPaint (Color.BLACK);
         int startX, startY, endX, endY;
-        startX = SHAPE_SIDE * (column + 1)+ SHAPE_SIDE-22;
+        startX = SHAPE_SIDE * (column + 1)+ SHAPE_SIDE-3;
         startY = CENTER_Y + SHAPE_SIDE * (row + 1)  - SHAPE_SIDE/2;
-        endX = SHAPE_SIDE * (column + 1)+ SHAPE_SIDE;
+        endX = SHAPE_SIDE * (column + 1)+ SHAPE_SIDE-3;
         endY = CENTER_Y + SHAPE_SIDE * (row + 1)  + SHAPE_SIDE/2;
         g2.drawLine(startX, startY, endX, endY);  
     }

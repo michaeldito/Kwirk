@@ -1,4 +1,7 @@
 import java.util.ArrayList;
+
+import jdk.nashorn.internal.ir.Block;
+
 import java.io.*;
 import java.awt.*;
 
@@ -192,7 +195,8 @@ public class GameLevelModel
     {
         Blocks c = new Blocks();
         for (int i = 0; i < bc.size(); i++)
-            c.add((Block) bc.get(i));
+            c.add(bc.get(i));
+            //c.add((Block) bc.get(i));
         blocks.add(c);
     }
 
@@ -252,7 +256,7 @@ public class GameLevelModel
             }
             if (destinationType.equals(GameSquare.SquareType.BLOCK))
             {
-                System.out.println(debug + "Destination is a BLOCK.\n[debug]  Determining if able to shift blocks.");
+                System.out.println(debug + "Destination is a BLOCK.\n" + debug + "Determining if able to shift blocks.");
                 Blocks b = findBlocksContaining(destinationRow, destinationCol);
                 boolean canShift = b.ableToShift(direction);
                 System.out.println(debug + "ableToShift: " + canShift);
@@ -539,10 +543,13 @@ public class GameLevelModel
         for (int i = 0; i < NUM_ROWS; i++)
             for (int j = 0; j < NUM_COLS; j++)
                 grid[i][j].paintComponent(g2);
-                
-        // holes.paintBorders(g2);
-        // turnstiles.paintBorders(g2);
-        // blocks.paintBorders(g2);
+
+        for (int i = 0; i < holes.size(); i++)        
+            holes.get(i).paintBorders(g2);
+        for (int i = 0; i < turnstiles.size(); i++)        
+            turnstiles.get(i).paintBorders(g2);
+        for (int i = 0; i < blocks.size(); i++)        
+            blocks.get(i).paintBorders(g2);
     }
 
     public abstract class GameSquareCollection
@@ -592,13 +599,53 @@ public class GameLevelModel
             return ">>>> Size: " + collection.size() + "\n" + collectionStr;
         }
 
-        public void paintBorders(Graphics2D g2)
+        protected void paintBorders(Graphics2D g2)
         {
-            for (int i = 0; i < collection.size(); i++) {
-                // if the gs has no gs above it -> draw top border
-                // if the gs has no gs below it -> draw top bottom
-                // if the gs has no gs to the left of it -> draw left border
-                // if the gs has no gs to the right of it -> draw right border
+            String debug = "[debug] [GameSquareCollection::paintBorders] ";
+            for (int i = 0; i < collection.size(); i++) 
+            {
+                GameSquare gs = collection.get(i);
+
+                boolean noGSAbove = true;
+                boolean noGSBelow = true;
+                boolean noGSLeft = true;
+                boolean noGSRight = true;
+
+                for (int j = 0; j < collection.size(); j++) 
+                {
+                    GameSquare gs2 = collection.get(j);
+                    if (i != j)
+                        if (gs.getColumn() == gs2.getColumn() && gs2.getRow() < gs.getRow())
+                            noGSAbove = false;
+                        if (gs.getColumn() == gs2.getColumn() && gs2.getRow() > gs.getRow())
+                            noGSBelow = false;
+                        if (gs.getRow() == gs2.getRow() && gs2.getColumn() < gs.getColumn())
+                            noGSLeft = false;
+                        if (gs.getRow() == gs2.getRow() && gs2.getColumn() > gs.getColumn())
+                            noGSRight = false;
+                }
+                Stroke previousSroke = g2.getStroke();
+                g2.setStroke(new BasicStroke(3.0f));
+                if (noGSAbove) 
+                {
+                    System.out.println(debug + "Painting top border on gs at (" + gs.getRow() + ", " + gs.getColumn() + ")");
+                    gs.paintTopBorder(g2);
+                }
+                if (noGSBelow) 
+                {
+                    System.out.println(debug + "Painting bottom border on gs at (" + gs.getRow() + ", " + gs.getColumn() + ")");
+                    gs.paintBottomBorder(g2);
+                }
+                if (noGSLeft) 
+                {
+                    System.out.println(debug + "Painting left border on gs at (" + gs.getRow() + ", " + gs.getColumn() + ")");
+                    gs.paintLeftBorder(g2);
+                }
+                if (noGSRight) {
+                    System.out.println(debug + "Painting right border on gs at (" + gs.getRow() + ", " + gs.getColumn() + ")");
+                    gs.paintRightBorder(g2);
+                }
+                g2.setStroke(previousSroke);
             }
         }
     }
@@ -924,9 +971,10 @@ public class GameLevelModel
             System.out.println(debug + "Block size: " + collection.size());
             int destinationRow, destinationCol;
             ArrayList<GameSquare> blocksToRemove = new ArrayList<GameSquare>();
+            ArrayList<GameSquare> newBlocks = new ArrayList<GameSquare>();
             for (int i = 0; i < collection.size(); i++)
             {
-                Block b = (Block) collection.get(i);
+                GameSquare b = collection.get(i);
                 System.out.println(debug + "Block location (" + b.getRow() + ", " + b.getColumn() + ")");
                 destinationRow = getDestinationRow(direction, b.getRow());
                 destinationCol = getDestinationColumn(direction, b.getColumn());
@@ -943,18 +991,32 @@ public class GameLevelModel
                 {
                     System.out.println(debug + "Destination is a " + grid[destinationRow][destinationCol].getClass());
                     System.out.println(debug + "Creating a block at (" + destinationRow + ", " + destinationCol + ")");
-                    grid[destinationRow][destinationCol] = GameSquare.create(GameSquare.SquareType.BLOCK, destinationRow, destinationCol);
-                    System.out.println(debug + "Setting collection[i] to the destination block.");
-                    collection.set(i, grid[destinationRow][destinationCol]);
-                    System.out.println(debug + "Collection[i] is now a " + collection.get(i).getClass());
-                    System.out.println(debug + "Setting block location (" + b.getRow() + ", " + b.getColumn() + ") to empty");
-                    grid[b.getRow()][b.getColumn()] = GameSquare.create(GameSquare.SquareType.EMPTY, b.getRow(), b.getColumn());
-                    System.out.println(debug + "Grid at block location is now " + grid[b.getRow()][b.getColumn()].getClass());
+                    //grid[destinationRow][destinationCol] = GameSquare.create(GameSquare.SquareType.BLOCK, destinationRow, destinationCol);
+                    newBlocks.add(GameSquare.create(GameSquare.SquareType.BLOCK, destinationRow, destinationCol));
+                    //System.out.println(debug + "Setting collection[i] to the destination block.");
+                    //collection.set(i, grid[destinationRow][destinationCol]);
+                    //System.out.println(debug + "Collection[i] is now a " + collection.get(i).getClass());
+                    //System.out.println(debug + "Setting block location (" + b.getRow() + ", " + b.getColumn() + ") to empty");
+                    //grid[b.getRow()][b.getColumn()] = GameSquare.create(GameSquare.SquareType.EMPTY, b.getRow(), b.getColumn());
+                    //System.out.println(debug + "Grid at block location is now " + grid[b.getRow()][b.getColumn()].getClass());
                 }
             }
+            for (int i = 0; i < collection.size(); i++) {
+                GameSquare b = collection.get(i);
+                grid[b.getRow()][b.getColumn()] = GameSquare.create(GameSquare.SquareType.EMPTY, b.getRow(), b.getColumn());
+            }
+                
             for (int i = 0; i < blocksToRemove.size(); i++) {
-                int j = collection.indexOf((Block) blocksToRemove.get(i));
+//                int j = collection.indexOf((Block) blocksToRemove.get(i));
+                int j = collection.indexOf(blocksToRemove.get(i));
+
                 collection.remove(j);
+            }
+            collection.clear();
+            for (int i = 0; i < newBlocks.size(); i++) {
+                GameSquare b = newBlocks.get(i);
+                collection.add(GameSquare.create(GameSquare.SquareType.BLOCK, b.getRow(), b.getColumn()));
+                grid[b.getRow()][b.getColumn()] = GameSquare.create(GameSquare.SquareType.BLOCK, b.getRow(), b.getColumn());
             }
         }
 
@@ -965,7 +1027,8 @@ public class GameLevelModel
             int destinationRow, destinationCol;
             for (int i = 0; i < collection.size(); i++)
             {
-                Block b = (Block) collection.get(i);
+                //Block b = (Block) collection.get(i);
+                GameSquare b = collection.get(i);
                 destinationRow = getDestinationRow(direction, b.getRow());
                 destinationCol = getDestinationColumn(direction, b.getColumn());
                 GameSquare destination = grid[destinationRow][destinationCol];

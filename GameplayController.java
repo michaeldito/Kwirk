@@ -23,9 +23,10 @@ public class GameplayController //implements KeyListener
 
   public void move(String direction)
   {
+    String debug = "[debug] [GameplayController::move] ";
     System.out.println("========================================================");
     if (currentLevelModel.ableToMove(direction)) {
-      System.out.println("[debug] ableToMove() => true");
+      System.out.println(debug + "ableToMove() => true");
       states.add(new GameLevelModel(this.currentLevelModel));
       currentLevelModel.move(direction);
       if (currentLevelModel.isLevelComplete()) {
@@ -35,7 +36,7 @@ public class GameplayController //implements KeyListener
       view.repaint();
     }
     else
-      System.out.println("[debug] ableToMove() => false");
+      System.out.println(debug + "ableToMove() => false");
     System.out.println("======================= Level " + currentLevel + " ========================");
     System.out.println(currentLevelModel);
   }

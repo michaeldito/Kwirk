@@ -28,7 +28,7 @@ m r:
 	make run
 	
 run:
-	java Application L13.csv L14.csv
+	java Application L8.csv
 
 bnr:
 	make clean
