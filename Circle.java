@@ -27,7 +27,7 @@ public final class Circle extends Shape
 
 	public Circle(int S, int cX, int cY, Color C)
 	{
-		side = S;
+		side = S -5;
 		centerX = cX;
 		centerY = cY;
 		color = C;
@@ -38,7 +38,12 @@ public final class Circle extends Shape
 		g2.setPaint (color);
 		g2.fillOval (centerX-side, centerY-side, 2*side, 2*side);
 		g2.drawOval (centerX-side, centerY-side, 2*side, 2*side);
+
+		Stroke previousStroke = g2.getStroke();
+		g2.setStroke(new BasicStroke(2.0f));
 		g2.setPaint (Color.BLACK);
-		g2.fillOval (centerX-1, centerY-1, 2, 2); // Draw the center point
+		g2.drawOval (centerX-side, centerY-side, 2*side, 2*side);
+		g2.setStroke(previousStroke);
+		g2.setPaint (color);
 	}
 }

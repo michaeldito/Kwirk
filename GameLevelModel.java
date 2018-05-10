@@ -8,6 +8,7 @@ public class GameLevelModel
 
     public final static int NUM_ROWS = 16;
     public final static int NUM_COLS = 18;
+
     
     private GameSquare[][] grid;
     private int playerRow;
@@ -28,6 +29,18 @@ public class GameLevelModel
         turnstiles = new ArrayList<Turnstiles>();
         blocks = new ArrayList<Blocks>();
         isLevelComplete = false;
+    }
+
+    public GameLevelModel(GameLevelModel model)
+    {
+        grid = new GameSquare[NUM_ROWS][NUM_COLS];
+        playerRow = 0;
+        playerColumn = 0;
+        holes = new ArrayList<Holes>();
+        turnstiles = new ArrayList<Turnstiles>();
+        blocks = new ArrayList<Blocks>();
+        isLevelComplete = false;
+        init(model.grid, model.playerRow, model.playerColumn, model.holes, model.turnstiles, model.blocks);
     }
 
     public void init(GameSquare[][] g, int pR, int pC, 
@@ -70,8 +83,8 @@ public class GameLevelModel
     //     else if (type.equals("BLOCKS"))
     //         collection = new Blocks();
     //     else {
-    //         System.out.println("[debug] Error in GameLevelModel::addGameSquareCollection(type, squares) - Invalid GameSquareCollection type");
-    //         System.out.println("[debug] addGameSquareCollection(type, squares) failed");
+    //         System.out.println("[debug]  Error in GameLevelModel::addGameSquareCollection(type, squares) - Invalid GameSquareCollection type");
+    //         System.out.println("[debug]  addGameSquareCollection(type, squares) failed");
     //         return;
     //     }
 
@@ -104,8 +117,8 @@ public class GameLevelModel
     //         collection = blocks;
     //     else 
     //     {
-    //         System.out.println("[debug] Error in GameLevelModel::setGameSquareCollection(type, squares) - Invalid GameSquareCollection type");
-    //         System.out.println("[debug] setGameSquareCollection(type, squares) failed");
+    //         System.out.println("[debug]  Error in GameLevelModel::setGameSquareCollection(type, squares) - Invalid GameSquareCollection type");
+    //         System.out.println("[debug]  setGameSquareCollection(type, squares) failed");
     //         return;
     //     }
 
@@ -195,7 +208,7 @@ public class GameLevelModel
             return row;
         else 
         {
-            System.out.println("ERROR IN GameLevelModel::getDestinationRow(dir) - invalid direction");
+            System.out.println("[ERROR] IN GameLevelModel::getDestinationRow - invalid direction");
             return -1;
         }
     }
@@ -212,41 +225,42 @@ public class GameLevelModel
             return column + 1;
         else 
         {
-            System.out.println("ERROR IN GameLevelModel::getDestinationColumn(dir) - invalid direction");
+            System.out.println("[ERROR] in GameLevelModel::getDestinationColumn - invalid direction");
             return -1;
         } 
     }
     public Boolean ableToMove(String direction)
     {
-        System.out.println("[debug] Checking if able to move " + direction);
-        System.out.println("[debug] Player is at (" + playerRow + ", " + playerColumn + ")");
+        String debug = "[debug] [GameLevelModel::ableToMove] ";
+        System.out.println(debug + "Checking if able to move " + direction);
+        System.out.println(debug + "Player is at (" + playerRow + ", " + playerColumn + ")");
 
         int destinationRow = getDestinationRow(direction, playerRow);
         int destinationCol = getDestinationColumn(direction, playerColumn);
         
-        System.out.println("[debug] Destination (" + destinationRow + ", " + destinationCol + ")");
+        System.out.println(debug + "Destination (" + destinationRow + ", " + destinationCol + ")");
 
         Boolean destinationIsInBounds = (destinationRow >= 0 && destinationRow < NUM_ROWS) && (destinationCol >= 0 && destinationCol < NUM_COLS);
         if (destinationIsInBounds)
         {
-            System.out.println("[debug] Destination is in bounds.");
+            System.out.println(debug + "Destination is in bounds.");
             GameSquare destination = grid[destinationRow][destinationCol];
             GameSquare.SquareType destinationType = destination.getType();
             if (destinationType.equals(GameSquare.SquareType.WALL)) {
-                System.out.println("[debug] Destination is a WALL");
+                System.out.println(debug + "Destination is a WALL");
                 return false;
             }
             if (destinationType.equals(GameSquare.SquareType.BLOCK))
             {
-                System.out.println("[debug] Destination is a BLOCK.\n[debug] Determining if able to shift blocks.");
+                System.out.println(debug + "Destination is a BLOCK.\n[debug]  Determining if able to shift blocks.");
                 Blocks b = findBlocksContaining(destinationRow, destinationCol);
                 boolean canShift = b.ableToShift(direction);
-                System.out.println("[debug] ableToShift: " + canShift);
+                System.out.println(debug + "ableToShift: " + canShift);
                 return canShift;
             }
             if (destinationType.equals(GameSquare.SquareType.TURNSTILE))
             {
-                System.out.println("[debug] Destination is a TURNSTILE.\n[debug] Determining if able to rotate.");
+                System.out.println(debug + "Destination is a TURNSTILE.\n" + debug + "Determining if able to rotate.");
                 Turnstiles t = findTurnstilesContaining(destinationRow, destinationCol);
                 Pivot p = t.getPivotSquare();
                 // if pushing up and pivot is to the right -> clockwise
@@ -281,31 +295,31 @@ public class GameLevelModel
             }
             else if (destinationType.equals(GameSquare.SquareType.STAIRS))
             {
-                System.out.println("[debug] Destination is the STAIRS!");
-                isLevelComplete = true;
+                System.out.println(debug + "Destination is the STAIRS!");
                 return true;
             }
             else if (destinationType.equals(GameSquare.SquareType.EMPTY))
             {
-                System.out.println("[debug] Destination is an EMPTY.");
+                System.out.println(debug + "Destination is an EMPTY.");
                 return true;
             }
             else // hole, or player is pushing on a pivot
             {
-                System.out.println("[debug] Destination is a " + GameSquare.TypeStrings[destinationType.getValue()] + ".");
+                System.out.println(debug + "Destination is a " + GameSquare.TypeStrings[destinationType.getValue()] + ".");
                 return false;
             }
         }
         else
         {
-            System.out.println("[ERROR] in GameLevelModel::ableToMove(dir) - destination is out of bounds");
+            System.out.println("[ERROR] in GameLevelModel::ableToMove - destination is out of bounds");
             return false;
         }
     }
 
     private void movePlayer(int destinationRow, int destinationCol)
     {
-        System.out.println("[debug] Moving player to (" + destinationRow + ", " + destinationCol + ")");
+        String debug = "[debug] [GameLevelModel::movePlayer] ";
+        System.out.println(debug + "Moving player to (" + destinationRow + ", " + destinationCol + ")");
         grid[destinationRow][destinationCol] = GameSquare.create(GameSquare.SquareType.PLAYER, destinationRow, destinationCol);
         grid[playerRow][playerColumn] = GameSquare.create(GameSquare.SquareType.EMPTY, playerRow, playerColumn);
         playerRow = destinationRow;
@@ -316,10 +330,9 @@ public class GameLevelModel
     {
         int destinationRow = getDestinationRow(direction, playerRow);
         int destinationCol = getDestinationColumn(direction, playerColumn);
-        GameSquare destination = grid[destinationRow][destinationCol];
-        GameSquare.SquareType destinationType = destination.getType();
-
+        GameSquare.SquareType destinationType = grid[destinationRow][destinationCol].getType();
         int turnstileSize = 0;
+
         if (destinationType.equals(GameSquare.SquareType.BLOCK))
         {
             Blocks b = findBlocksContaining(destinationRow, destinationCol);
@@ -369,7 +382,11 @@ public class GameLevelModel
                 }
             }
         }
-        // now move the player, it's a double move if they rotated a quadruple turnstile (4 TS + 1 PV = 5)
+        else if (destinationType.equals(GameSquare.SquareType.STAIRS))
+        {
+            isLevelComplete = true;
+        }
+        // Now move the player, it's a double move if they rotated a quadruple turnstile (4 TS + 1 PV = 5)
         if (turnstileSize == 5)
             if (direction.equals("UP"))
                 destinationRow--;
@@ -380,8 +397,10 @@ public class GameLevelModel
             else // RIGHT
                 destinationCol++;
 
+        // If it was a triple turnstile and the players destination is currently occupied by a turnstile
+        // then it is also a double move.
         destinationType = grid[destinationRow][destinationCol].getType();
-        if (turnstileSize == 4)
+        if (turnstileSize == 3 || turnstileSize == 4)
             if (direction.equals("UP") && destinationType.equals(GameSquare.SquareType.TURNSTILE))
                 destinationRow--;
             else if (direction.equals("DOWN") && destinationType.equals(GameSquare.SquareType.TURNSTILE))
@@ -401,7 +420,7 @@ public class GameLevelModel
             for (int j = 0; j < turnstiles.get(i).size(); j++)
                 if (turnstiles.get(i).get(j).equals(GameSquare.create(GameSquare.SquareType.TURNSTILE, r, c)))
                     return turnstiles.get(i);
-        System.out.println("Error in findTurnstilesContaining(r, c) - no turnstile found");
+        System.out.println("[ERROR] in GameLevelModel::findTurnstilesContaining - no turnstile found.");
         return new Turnstiles();
     }
 
@@ -411,7 +430,7 @@ public class GameLevelModel
             for (int j = 0; j < blocks.get(i).size(); j++)
                 if (blocks.get(i).get(j).equals(GameSquare.create(GameSquare.SquareType.BLOCK, r, c)))
                     return blocks.get(i);
-        System.out.println("Error in findBlocksContaining(r, c) - no block found");
+        System.out.println("[ERROR] in GameLevelModel::findBlocksContaining - no block found.");
         return new Blocks();
     }
 
@@ -421,7 +440,7 @@ public class GameLevelModel
             for (int j = 0; j < holes.get(i).size(); j++)
                 if (holes.get(i).get(j).equals(GameSquare.create(GameSquare.SquareType.HOLE, r, c)))
                     return holes.get(i);
-        System.out.println("Error in findHolesContaining(r, c) - no hole found");
+        System.out.println("Error in findHolesContaining(r, c) - no hole found.");
         return new Holes();
     }
 
@@ -520,6 +539,10 @@ public class GameLevelModel
         for (int i = 0; i < NUM_ROWS; i++)
             for (int j = 0; j < NUM_COLS; j++)
                 grid[i][j].paintComponent(g2);
+                
+        // holes.paintBorders(g2);
+        // turnstiles.paintBorders(g2);
+        // blocks.paintBorders(g2);
     }
 
     public abstract class GameSquareCollection
@@ -568,6 +591,16 @@ public class GameLevelModel
                 collectionStr += collection.get(i) + "\n";
             return ">>>> Size: " + collection.size() + "\n" + collectionStr;
         }
+
+        public void paintBorders(Graphics2D g2)
+        {
+            for (int i = 0; i < collection.size(); i++) {
+                // if the gs has no gs above it -> draw top border
+                // if the gs has no gs below it -> draw top bottom
+                // if the gs has no gs to the left of it -> draw left border
+                // if the gs has no gs to the right of it -> draw right border
+            }
+        }
     }
 
     public class Turnstiles extends GameSquareCollection
@@ -579,7 +612,8 @@ public class GameLevelModel
 
         public Boolean ableToRotateClockwise()
         {
-            System.out.println("[debug] Determining if able to rotate clockwise.");
+            String debug = "[debug] [Turnstiles::ableToRotateClockwise] ";
+            System.out.println(debug + "Determining if able to rotate clockwise.");
             Pivot p = getPivotSquare();
             int destinationRow, destinationCol;
             int passThroughRow, passThroughCol;
@@ -625,17 +659,17 @@ public class GameLevelModel
                                                  destinationType.equals(GameSquare.SquareType.HOLE)  ||
                                                  destinationType.equals(GameSquare.SquareType.TURNSTILE));
 
-                    System.out.println("[debug] destinationIsGood: " + destinationIsGood);
+                    System.out.println(debug + "destinationIsGood: " + destinationIsGood);
 
                     Boolean passThroughIsGood = (passThroughType.equals(GameSquare.SquareType.EMPTY) || 
                                                  passThroughType.equals(GameSquare.SquareType.HOLE)  ||
                                                  passThroughType.equals(GameSquare.SquareType.PLAYER));
 
-                    System.out.println("[debug] passThroughIsGood: " + passThroughIsGood);
+                    System.out.println(debug + "passThroughIsGood: " + passThroughIsGood);
 
                     Boolean ableToRotate = destinationIsGood && passThroughIsGood;
 
-                    System.out.println("[debug] ableToRotateClockwise() => " + ableToRotate);
+                    System.out.println(debug + "ableToRotateClockwise() => " + ableToRotate);
 
                     if (! ableToRotate)
                         return false;
@@ -646,7 +680,8 @@ public class GameLevelModel
 
         public Boolean ableToRotateCounterClockwise()
         {
-            System.out.println("[debug] Determining if able to rotate counter clockwise.");
+            String debug = "[debug] [Turnstiles::ableToRotateCounterClockwise] ";
+            System.out.println(debug + "Determining if able to rotate counter clockwise.");
 
             Pivot p = getPivotSquare();
             int destinationRow, destinationCol;
@@ -694,17 +729,17 @@ public class GameLevelModel
                                                  destinationType.equals(GameSquare.SquareType.HOLE)  ||
                                                  destinationType.equals(GameSquare.SquareType.TURNSTILE));
 
-                    System.out.println("destinationIsGood: " + destinationIsGood);
+                    System.out.println(debug + "destinationIsGood: " + destinationIsGood);
 
                     Boolean passThroughIsGood = (passThroughType.equals(GameSquare.SquareType.EMPTY) || 
                                                  passThroughType.equals(GameSquare.SquareType.HOLE)  ||
                                                  passThroughType.equals(GameSquare.SquareType.PLAYER));
 
-                    System.out.println("passThroughIsGood: " + passThroughIsGood);
+                    System.out.println(debug + "passThroughIsGood: " + passThroughIsGood);
 
                     Boolean ableToRotate = destinationIsGood && passThroughIsGood;
 
-                    System.out.println("[debug] ableToRotateCounterClockwise() => " + ableToRotate);
+                    System.out.println(debug + "ableToRotateCounterClockwise() => " + ableToRotate);
 
                     if (! ableToRotate)
                         return false;
@@ -715,7 +750,8 @@ public class GameLevelModel
 
         public void rotateClockwise()
         {
-            System.out.println("[debug] Rotating clockwise.");
+            String debug = "[debug] [Turnstiles::rotateClockwise] ";
+            System.out.println(debug + "Rotating clockwise.");
 
             Turnstiles rotatedTurnstiles = new Turnstiles();
             Pivot p = getPivotSquare();
@@ -774,7 +810,8 @@ public class GameLevelModel
 
         public void rotateCounterClockwise()
         {
-            System.out.println("[debug] Rotating counter clockwise");
+            String debug = "[debug] [Turnstiles::rotateClockwise] ";
+            System.out.println(debug + "Rotating counter clockwise");
 
             Turnstiles rotatedTurnstiles = new Turnstiles();
             Pivot p = getPivotSquare();
@@ -836,7 +873,7 @@ public class GameLevelModel
             for (int i = 0; i < collection.size(); i++)
                 if (collection.get(i).getType().equals(GameSquare.SquareType.PIVOT))
                     return (Pivot) collection.get(i);
-            System.out.println("Error in GameLevelModel::getPivotSquare() - no pivot found.");
+            System.out.println("[ERROR] in GameLevelModel::getPivotSquare - no pivot found.");
             return new Pivot();
         }
 
@@ -881,20 +918,22 @@ public class GameLevelModel
 
         public void shiftBlocks(String direction)
         {
-            System.out.println("[debug] Shifting blocks:" + direction);
-            System.out.println("[debug] Block size: " + collection.size());
+            String debug = "[debug] [Blocks::shiftBlocks] ";
+
+            System.out.println(debug + "Shifting blocks: " + direction);
+            System.out.println(debug + "Block size: " + collection.size());
             int destinationRow, destinationCol;
             ArrayList<GameSquare> blocksToRemove = new ArrayList<GameSquare>();
             for (int i = 0; i < collection.size(); i++)
             {
                 Block b = (Block) collection.get(i);
-                System.out.println("[debug] Block location (" + b.getRow() + ", " + b.getColumn() + ")");
+                System.out.println(debug + "Block location (" + b.getRow() + ", " + b.getColumn() + ")");
                 destinationRow = getDestinationRow(direction, b.getRow());
                 destinationCol = getDestinationColumn(direction, b.getColumn());
-                System.out.println("[debug] Block destination (" + destinationRow + ", " + destinationCol + ")");
+                System.out.println(debug + "Block destination (" + destinationRow + ", " + destinationCol + ")");
                 if (grid[destinationRow][destinationCol].getType().equals(GameSquare.SquareType.HOLE))
                 {
-                    System.out.println("[debug] Destination is a HOLE.");
+                    System.out.println(debug + "Destination is a HOLE.");
                     Holes h = findHolesContaining(destinationRow, destinationCol);
                     h.fillHole((Hole) grid[destinationRow][destinationCol]);
                     blocksToRemove.add(b);
@@ -902,15 +941,15 @@ public class GameLevelModel
                 } 
                 else
                 {
-                    System.out.println("[debug] Destination is a " + grid[destinationRow][destinationCol].getClass());
-                    System.out.println("[debug] Creating a block at (" + destinationRow + ", " + destinationCol + ")");
+                    System.out.println(debug + "Destination is a " + grid[destinationRow][destinationCol].getClass());
+                    System.out.println(debug + "Creating a block at (" + destinationRow + ", " + destinationCol + ")");
                     grid[destinationRow][destinationCol] = GameSquare.create(GameSquare.SquareType.BLOCK, destinationRow, destinationCol);
-                    System.out.println("[debug] Setting collection(i) to the destination block.");
+                    System.out.println(debug + "Setting collection[i] to the destination block.");
                     collection.set(i, grid[destinationRow][destinationCol]);
-                    System.out.println("[debug] collection(i) is a " + collection.get(i).getClass());
-                    System.out.println("[debug] Setting block location (" + b.getRow() + ", " + b.getColumn() + ") to empty");
+                    System.out.println(debug + "Collection[i] is now a " + collection.get(i).getClass());
+                    System.out.println(debug + "Setting block location (" + b.getRow() + ", " + b.getColumn() + ") to empty");
                     grid[b.getRow()][b.getColumn()] = GameSquare.create(GameSquare.SquareType.EMPTY, b.getRow(), b.getColumn());
-                    System.out.println("[debug] Grid at block is now " + grid[b.getRow()][b.getColumn()].getClass());
+                    System.out.println(debug + "Grid at block location is now " + grid[b.getRow()][b.getColumn()].getClass());
                 }
             }
             for (int i = 0; i < blocksToRemove.size(); i++) {
@@ -921,7 +960,8 @@ public class GameLevelModel
 
         public Boolean ableToShift(String direction)
         {
-            System.out.println("[debug] Checking if able to shift blocks.");
+            String debug = "[debug] [GameLevelModel::ableToShift] ";
+            System.out.println(debug + "Checking if able to shift blocks.");
             int destinationRow, destinationCol;
             for (int i = 0; i < collection.size(); i++)
             {

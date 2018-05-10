@@ -12,6 +12,7 @@ public class Stairs extends GameSquare
         row = r;
         column = c;
         strValue = "$$";
-        shape = new Right(SHAPE_SIDE, CENTER_X + SHAPE_SIDE * (column + 1), CENTER_Y + SHAPE_SIDE * (row + 1), Color.ORANGE);
+        shape = new Right(SHAPE_SIDE - 7, CENTER_X + SHAPE_SIDE * (column + 1) - 7, CENTER_Y + 7 + SHAPE_SIDE * (row + 1), Color.ORANGE);
+        //((Right) shape).rotate(90);
     }
 }

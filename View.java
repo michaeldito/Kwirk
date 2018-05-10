@@ -23,8 +23,25 @@ public class View extends JFrame
         controller = c;
     }
 
+    public void updatePanel()
+    {
+        String debug = "[debug] [View::updatePanel] ";
+        System.out.println(debug + "Updating the GamePanel");
+
+        Container contentPane = getContentPane();
+        contentPane.removeAll();
+        gamePanel = new GamePanel(model);
+        contentPane.add(gamePanel);
+        pack();
+        controller.displayGame();
+        
+        System.out.println(debug + "Complete.");
+    }
+
     public void build()
     {
+        String debug = "[debug] [View::build] ";
+        System.out.println(debug + "Building the view.");
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent event)
             {
@@ -41,7 +58,7 @@ public class View extends JFrame
 
         pack();
         controller.displayGame();
-
+        System.out.println(debug + "View building complete.");
     }
 
     public void paint(Graphics g)

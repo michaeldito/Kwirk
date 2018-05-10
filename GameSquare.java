@@ -20,7 +20,7 @@ public class GameSquare
 
     public static String TypeStrings[] =  { "PLAYER", "WALL", "BLOCK", "HOLE", "TURNSTILE", "PIVOT", "STAIRS", "EMPTY" };
 
-    protected final int CENTER_X = 25;
+    protected final int CENTER_X = 15;
     protected final int CENTER_Y = 25;
     protected final int SHAPE_SIDE = 35;
 
@@ -30,9 +30,7 @@ public class GameSquare
     protected String strValue;
     protected Shape shape;
 
-    public GameSquare()
-    {
-    }
+    public GameSquare() {}
 
     public GameSquare(int r, int c)
     {
@@ -40,7 +38,7 @@ public class GameSquare
         column = c;
         type = SquareType.EMPTY;
         strValue = "  ";
-        shape = new Square(SHAPE_SIDE, CENTER_X + SHAPE_SIDE * (column + 1), CENTER_Y + SHAPE_SIDE * (row + 1), Color.WHITE);
+        shape = new Square(SHAPE_SIDE - 4, CENTER_X + SHAPE_SIDE * (column + 1), CENTER_Y + SHAPE_SIDE * (row + 1), Color.WHITE);
     }
 
     protected void setRow(int r) 
@@ -91,17 +89,67 @@ public class GameSquare
 
     public String toString()
     {
-        return ">>>>> [" + TypeStrings[type.getValue()] + "] :\n>>>>>> row = " + row + "; column = " + column + ";\n>>>>>> (shape) => " + (shape == null ? "no shape" : shape) + "\n>>>>>> strValue = " + strValue;
+        String s = ">>>>> [" + TypeStrings[type.getValue()] + "] :\n>>>>>> row = " + row + "; column = " + column;
+        s += ";\n>>>>>> (shape) => " + (shape == null ? "no shape" : shape) + "\n>>>>>> strValue = " + strValue;
+        return s; 
     }
 
     public boolean equals(GameSquare gs)
     {
-        if (row != gs.getRow()) return false;
-        if (column != gs.getColumn()) return false;
-        if (type != gs.getType()) return false;
+        if (row != gs.getRow()) 
+            return false;
+        if (column != gs.getColumn()) 
+            return false;
+        if (type != gs.getType()) 
+            return false;
         return true;
     }
 
+    public void paintTopBorder(Graphics2D g2)
+    {
+        g2.setPaint (Color.BLACK);
+        int startX, startY, endX, endY;
+        startX = SHAPE_SIDE * (column + 1);
+        startY = CENTER_Y + SHAPE_SIDE * (row + 1)  - SHAPE_SIDE/2;
+        endX = CENTER_X + SHAPE_SIDE * (column + 1) + SHAPE_SIDE;
+        endY = CENTER_Y + SHAPE_SIDE * (row + 1)  - SHAPE_SIDE/2;
+        g2.drawLine(startX, startY, endX, endY);
+    }
+
+    public void paintBottomBorder(Graphics2D g2)
+    {
+        g2.setPaint (Color.BLACK);
+        int startX, startY, endX, endY;
+        startX = SHAPE_SIDE * (column + 1);
+        startY = CENTER_Y + SHAPE_SIDE * (row + 1)  + SHAPE_SIDE/2;
+        endX = CENTER_X + SHAPE_SIDE * (column + 1) + SHAPE_SIDE;
+        endY = CENTER_Y + SHAPE_SIDE * (row + 1)  + SHAPE_SIDE/2;
+        g2.drawLine(startX, startY, endX, endY);
+    }
+
+
+    public void paintLeftBorder(Graphics2D g2)
+    {
+        g2.setPaint (Color.BLACK);
+        int startX, startY, endX, endY;
+        startX = SHAPE_SIDE * (column + 1);
+        startY = CENTER_Y + SHAPE_SIDE * (row + 1)  - SHAPE_SIDE/2;
+        endX = SHAPE_SIDE * (column + 1);
+        endY = CENTER_Y + SHAPE_SIDE * (row + 1)  + SHAPE_SIDE/2;
+        g2.drawLine(startX, startY, endX, endY); 
+    }
+
+    public void paintRightBorder(Graphics2D g2)
+    {
+        g2.setPaint (Color.BLACK);
+        int startX, startY, endX, endY;
+        startX = SHAPE_SIDE * (column + 1)+ SHAPE_SIDE-22;
+        startY = CENTER_Y + SHAPE_SIDE * (row + 1)  - SHAPE_SIDE/2;
+        endX = SHAPE_SIDE * (column + 1)+ SHAPE_SIDE;
+        endY = CENTER_Y + SHAPE_SIDE * (row + 1)  + SHAPE_SIDE/2;
+        g2.drawLine(startX, startY, endX, endY);  
+    }
+    
     public static GameSquare create(SquareType squareType, int r, int c)
     {
         if (squareType.equals(SquareType.PLAYER))

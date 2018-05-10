@@ -38,16 +38,22 @@ public final class Right extends Triangle
 	public Right(int S, int cX, int cY, Color C)
 	{
 		side = S;
-		side2 = side / 2;
+		side2 = S;
 		centerX = cX;
 		centerY = cY;
 		color = C;
 		setVertices();
 	}
 
+	public double perimeter ()
+	{
+		return side + side2 + sqrt (side * side + side2 * side2);
+	}
+
 	public void setVertices ()
 	{
-		if (! hasVertices) {
+		if (! hasVertices) 
+		{
 			doubleVertexX[0] = 0;
 			doubleVertexY[0] = 0;
 			doubleVertexX[1] = 0; 
@@ -72,8 +78,8 @@ public final class Right extends Triangle
 			vertexX[i] += (int)(doubleVertexX[i] + .5);
 			vertexY[i] += (int)(doubleVertexY[i] + .5);
 		}
-        if (angle != 0)
-            rotate(angle);
+		if (angle != 0)
+				rotate(angle);
 		polygon = new Polygon (vertexX, vertexY, 3);
 	}
 

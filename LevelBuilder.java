@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+import java.util.*;
 import java.io.*;
 import java.awt.*;
 
@@ -8,16 +8,19 @@ public class LevelBuilder
   {
   }
 
-  public GameLevelModel buildOneLevel(String arg)
+  public static GameLevelModel buildOneLevel(String arg)
   {
     try
     {
+        String debug = "[debug] [LevelBuilder::buildOneLevel] ";
+        System.out.println(debug + "Beginning to build " + arg);
         GameLevelModel model = new GameLevelModel();
         GameSquare[][] grid = new GameSquare[GameLevelModel.NUM_ROWS][GameLevelModel.NUM_COLS];
         BufferedReader inFile = new BufferedReader (new FileReader (arg));
         for (int i = 0; i < GameLevelModel.NUM_ROWS; i++) 
         {
           String string = inFile.readLine();
+          System.out.println(debug + "Current Line: " + string);
           String[] parts = string.split(",", 0);
           int count = parts.length;
           for (int j = 0; j < count; j++)
@@ -35,9 +38,10 @@ public class LevelBuilder
                 grid[i][j] = GameSquare.create(GameSquare.SquareType.PIVOT, i, j);	
             else if (squareCode.equals("[]"))
                 grid[i][j] = GameSquare.create(GameSquare.SquareType.EMPTY, i, j);
-            else if (squareCode.equals("KW")) {
+            else if (squareCode.equals("KW")) 
+            {
                 grid[i][j] = GameSquare.create(GameSquare.SquareType.PLAYER, i, j);
-                System.out.println("Setting player position at (" + i + ", " + j + ")");
+                System.out.println(debug + "Setting player position at (" + i + ", " + j + ")");
                 model.setPlayerPosition(i, j);
             }
             else if (squareCode.equals("SR"))
@@ -48,12 +52,15 @@ public class LevelBuilder
 
         String s1 = inFile.readLine();
         int count = Integer.parseInt(s1);
+        System.out.println(debug + "There are " + count + " GameSquareCollections to construct.");
         for (int i = 0; i < count; i++)
         {
           String s2 = inFile.readLine();
+          System.out.println(debug + "Current Line: " + s2);
           String[] parts = s2.split(" ", 0);
           String collectionCode = parts[0];
-          if (collectionCode.equals("TURNSTILE")) {
+          if (collectionCode.equals("TURNSTILE")) 
+          {
             ArrayList<GameSquare> tc = new ArrayList<GameSquare>();
             for (int j = 1; j < parts.length && ! parts[j].equals("P"); j+=2) 
             {
@@ -69,7 +76,8 @@ public class LevelBuilder
           else if (collectionCode.equals("BLOCK")) 
           {
             ArrayList<GameSquare> bc = new ArrayList<GameSquare>();
-            for (int j = 1; j < parts.length; j+=2) {
+            for (int j = 1; j < parts.length; j+=2) 
+            {
               int r = Integer.parseInt(parts[j]);
               int c = Integer.parseInt(parts[j+1]);
               bc.add(GameSquare.create(GameSquare.SquareType.BLOCK, r, c));
@@ -79,7 +87,8 @@ public class LevelBuilder
           else if (collectionCode.equals("HOLE")) 
           {
             ArrayList<GameSquare> hc = new ArrayList<GameSquare>();
-            for (int j = 1; j < parts.length; j+=2) {
+            for (int j = 1; j < parts.length; j+=2) 
+            {
               int r = Integer.parseInt(parts[j]);
               int c = Integer.parseInt(parts[j+1]);
               hc.add(GameSquare.create(GameSquare.SquareType.HOLE, r, c));
@@ -88,11 +97,11 @@ public class LevelBuilder
           } 
           else 
           {
-            System.out.println("ERROR PARSING LEVEL. UNEXPECTED COLLECTION TYPE.");
+            System.out.println("[ERROR] in LevelBuilder::buildOneLevel - error parsing collection type.");
           }
         }
       inFile.close();
-      System.out.println("LevelBuilder: Complete");
+      System.out.println(debug + "Complete.");
       return model;
     }
     catch (IOException e)
@@ -107,10 +116,18 @@ public class LevelBuilder
     }
   }
 
+  public static Queue<GameLevelModel> buildAllLevels(String[] args)
+  {
+    Queue<GameLevelModel> levels = new LinkedList<GameLevelModel>();
+    for (int i = 0; i < args.length; i++)
+      levels.add(buildOneLevel(args[i]));
+    return levels;
+  }
+
+
   public static void main(String[] args)
   {
-    LevelBuilder builder = new LevelBuilder();
-    GameLevelModel model = builder.buildOneLevel(args[0]);
+    GameLevelModel model = LevelBuilder.buildOneLevel(args[0]);
     System.out.println(model);
   }
 }

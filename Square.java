@@ -41,7 +41,12 @@ public final class Square extends Quadrilateral
         color = C;
         setVertices();
     }
-
+    public void paintBorders (Graphics2D g2)
+    {
+        g2.setPaint (Color.BLACK);
+        g2.drawPolygon (vertexX, vertexY, 4);
+        g2.setPaint (color);
+    }
     public void setVertices()
     {        
         if (! hasVertices) {

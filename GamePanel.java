@@ -14,7 +14,7 @@ class GamePanel extends JPanel
     public void paint(Graphics g)
     {
         super.paint(g);
-       // setBackground(Color.RED);
+        setBackground(Color.BLUE);
         model.display((Graphics2D) g);
     }
 }

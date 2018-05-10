@@ -1,5 +1,7 @@
 GAMESQUARES = GameSquare.class Player.class Wall.class Hole.class Turnstile.class Pivot.class Stairs.class
-all: Application.class
+SHAPES = Shape.class Triangle.class Quadrilateral.class Square.class Right.class
+LEVELS = L1.csv L2.csv L3.csv L4.csv L5.csv L6.csv L7.csv L8.csv L9.csv L10.csv L11.csv L12.csv L13.csv L14.csv
+all: $(GAMESQUARES) $(SHAPES) GameLevelModel.class LevelBuilder.class GameplayController.class View.class Application.class
 
 submit:
 	mkdir ditoP
@@ -15,14 +17,18 @@ submit:
 	jar cvmf ditoP/manifest.txt ditoP.jar *.class ditoP/L[1-5].csv
 	tar cfvz ditoP.tgz ditoP
 	cp ditoP.tgz ~tiawatts/cs360drop
-	
+
+c:
+	make clean
+
 clean:
 	rm *.class
 
-
-
+m r:
+	make run
+	
 run:
-	java Application L3.csv
+	java Application L13.csv L14.csv
 
 bnr:
 	make clean
@@ -41,14 +47,11 @@ LevelBuilder.class: LevelBuilder.java GameLevelModel.class
 GameLevelModel.class: GameLevelModel.java $(GAMESQUARES)
 	javac GameLevelModel.java
 
-GameState.class: GameState.java GameLevelModel.class
-	javac GameState.java
-
 # View
 View.class: View.java
 	javac View.java
 
-# Controllers
+# Controller
 GameplayController.class: GameplayController.java GameLevelModel.class
 	javac GameplayController.java
 
