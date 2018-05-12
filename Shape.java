@@ -29,6 +29,13 @@ public class Shape implements Comparable<Shape>
 		hasVertices = false;
 	}
 	
+	public void setSide(int s)
+	{
+		side = s;
+	}
+
+	public int getSide() { return side; }
+
 	public void setCenterX (int X)
 	{
 		centerX = X;

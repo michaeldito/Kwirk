@@ -32,6 +32,12 @@ public class Triangle extends Shape
 		g2.drawPolygon (vertexX, vertexY, 3);
 		g2.setPaint (Color.BLACK);
 		//g2.fillOval (centerX-1, centerY-1, 2, 2); // Draw the center point
+		Stroke previousStroke = g2.getStroke();
+		g2.setStroke(new BasicStroke(4.0f));
+		g2.setPaint (Color.BLACK);
+		g2.drawPolygon (vertexX, vertexY, 3);
+		g2.setStroke(previousStroke);
+		g2.setPaint (color);
 	}
 
 	public boolean isIn (int x, int y)

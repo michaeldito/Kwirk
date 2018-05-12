@@ -40,7 +40,7 @@ public final class Circle extends Shape
 		g2.drawOval (centerX-side, centerY-side, 2*side, 2*side);
 
 		Stroke previousStroke = g2.getStroke();
-		g2.setStroke(new BasicStroke(2.0f));
+		g2.setStroke(new BasicStroke(4.0f));
 		g2.setPaint (Color.BLACK);
 		g2.drawOval (centerX-side, centerY-side, 2*side, 2*side);
 		g2.setStroke(previousStroke);

@@ -10,11 +10,11 @@ class GamePanel extends JPanel
         model = m;
         setPreferredSize(new Dimension(715, 650));
     }
-
+    
     public void paint(Graphics g)
     {
         super.paint(g);
-        setBackground(Color.BLUE);
+        setBackground(Color.WHITE);
         model.display((Graphics2D) g);
     }
 }

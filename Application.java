@@ -34,5 +34,7 @@ public class Application
 
         System.out.println(debug + "Displaying the view.");
         view.display();
+
+        
     }
 }

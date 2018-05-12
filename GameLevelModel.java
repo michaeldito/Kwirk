@@ -1,18 +1,17 @@
 import java.util.ArrayList;
 
-import jdk.nashorn.internal.ir.Block;
-
 import java.io.*;
 import java.awt.*;
 
 public class GameLevelModel
 {
+    public Thread mainThread;
+
     private View view;
 
     public final static int NUM_ROWS = 16;
     public final static int NUM_COLS = 18;
 
-    
     private GameSquare[][] grid;
     private int playerRow;
     private int playerColumn;
@@ -22,6 +21,8 @@ public class GameLevelModel
 
     private Boolean isLevelComplete;
     public Boolean isLevelComplete() { return isLevelComplete; }
+
+    public Player getPlayer() { return (Player) grid[playerRow][playerColumn]; }
 
     public GameLevelModel()
     { 
@@ -73,7 +74,7 @@ public class GameLevelModel
     public void setPlayerPosition(int pR, int pC)
     {
         playerRow = pR;
-        playerColumn = pC; 
+        playerColumn = pC;
     }
 
     // public void addToGameSquareCollection(String type, ArrayList<GameSquare> gameSquares)
@@ -601,7 +602,7 @@ public class GameLevelModel
 
         protected void paintBorders(Graphics2D g2)
         {
-            String debug = "[debug] [GameSquareCollection::paintBorders] ";
+            //String debug = "[debug] [GameSquareCollection::paintBorders] ";
             for (int i = 0; i < collection.size(); i++) 
             {
                 GameSquare gs = collection.get(i);
@@ -625,24 +626,24 @@ public class GameLevelModel
                             noGSRight = false;
                 }
                 Stroke previousSroke = g2.getStroke();
-                g2.setStroke(new BasicStroke(3.0f));
+                g2.setStroke(new BasicStroke(4.0f));
                 if (noGSAbove) 
                 {
-                    System.out.println(debug + "Painting top border on gs at (" + gs.getRow() + ", " + gs.getColumn() + ")");
+                 //   System.out.println(debug + "Painting top border on gs at (" + gs.getRow() + ", " + gs.getColumn() + ")");
                     gs.paintTopBorder(g2);
                 }
                 if (noGSBelow) 
                 {
-                    System.out.println(debug + "Painting bottom border on gs at (" + gs.getRow() + ", " + gs.getColumn() + ")");
+                 //   System.out.println(debug + "Painting bottom border on gs at (" + gs.getRow() + ", " + gs.getColumn() + ")");
                     gs.paintBottomBorder(g2);
                 }
                 if (noGSLeft) 
                 {
-                    System.out.println(debug + "Painting left border on gs at (" + gs.getRow() + ", " + gs.getColumn() + ")");
+                 //   System.out.println(debug + "Painting left border on gs at (" + gs.getRow() + ", " + gs.getColumn() + ")");
                     gs.paintLeftBorder(g2);
                 }
                 if (noGSRight) {
-                    System.out.println(debug + "Painting right border on gs at (" + gs.getRow() + ", " + gs.getColumn() + ")");
+                 //   System.out.println(debug + "Painting right border on gs at (" + gs.getRow() + ", " + gs.getColumn() + ")");
                     gs.paintRightBorder(g2);
                 }
                 g2.setStroke(previousSroke);
@@ -710,7 +711,8 @@ public class GameLevelModel
 
                     Boolean passThroughIsGood = (passThroughType.equals(GameSquare.SquareType.EMPTY) || 
                                                  passThroughType.equals(GameSquare.SquareType.HOLE)  ||
-                                                 passThroughType.equals(GameSquare.SquareType.PLAYER));
+                                                 passThroughType.equals(GameSquare.SquareType.PLAYER) &&
+                                                 ! passThroughType.equals(GameSquare.SquareType.TURNSTILE));
 
                     System.out.println(debug + "passThroughIsGood: " + passThroughIsGood);
 

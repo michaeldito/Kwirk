@@ -63,9 +63,12 @@ public class GameplayController //implements KeyListener
 
   public void undoMove()
   {
-    currentLevelModel = states.pop();
-    view.addModel(currentLevelModel);
-    view.updatePanel();
+    if (! states.isEmpty())
+    {
+      currentLevelModel = states.pop();
+      view.addModel(currentLevelModel);
+      view.updatePanel();
+    }
   }
 
   public void addModels(Queue<GameLevelModel> models)
@@ -120,6 +123,51 @@ public class GameplayController //implements KeyListener
           }        
         }
       };
+  }
+
+  JButton getRestartButton()
+  {
+    JButton b = new JButton();
+
+    b.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e)
+      {
+        System.out.println("[debug] [GameplayController] Reset button pressed.");
+        restartLevel();
+      }
+    });
+
+    return b;
+  }
+
+  JButton getUndoButton()
+  {
+    JButton b = new JButton();
+
+    b.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e)
+      {
+        System.out.println("[debug] [GameplayController] Undo button pressed.");
+        undoMove();
+      }
+    });
+
+    return b;
+  }
+
+  JButton getQuitButton()
+  {
+    JButton b = new JButton();
+
+    b.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e)
+      {
+        System.out.println("[debug] [GameplayController] Quit button pressed.");
+        // quit and return to main menu
+      }
+    });
+
+    return b;
   }
 
   public void displayGame()
