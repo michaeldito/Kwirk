@@ -105,6 +105,17 @@ public class GameSquare
         return true;
     }
 
+    public boolean equalTo(int r, int c, SquareType t)
+    {
+        if (row != r) 
+            return false;
+        if (column != c) 
+            return false;
+        if (type != t)
+            return false;
+        return true;
+    }
+
     protected void paintTopBorder(Graphics2D g2)
     {
         g2.setPaint (Color.BLACK);

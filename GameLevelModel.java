@@ -477,23 +477,7 @@ public class GameLevelModel
                 gridStr += i + " ";
         gridStr += "\n";
 
-        // holes, turnstiles, blocks - LONG
-        String holesStr = "[Hole Collections]\n>> ";
-        holesStr += "Size: " + holes.size() + "\n\n";
-        for (int i = 0; i < holes.size(); i++)
-            holesStr += ">>> " + holes.get(i).toString() + "\n";
-
-        String turnstilesStr = "[Turnstile Collections]\n>> ";
-        turnstilesStr += "Size: " + turnstiles.size() + "\n\n";
-        for (int i = 0; i < turnstiles.size(); i++)
-            turnstilesStr += ">>> " + turnstiles.get(i).toString() + "\n";
-
-        String blocksStr = "[Blocks Collections]\n>> ";
-        blocksStr += "Size: " + blocks.size() + "\n\n";
-        for (int i = 0; i < blocks.size(); i++)
-            blocksStr += ">>> " + blocks.get(i).toString() + "\n";
-
-        // holes, turnstiles, blocks - SHORT
+        // holes, turnstiles, blocks
         String holesStr2 = "";
         String blocksStr2 = "";
         String turnstilesStr2 = "";
@@ -529,9 +513,6 @@ public class GameLevelModel
         turnstilesStr2 += "\n]";
 
         return "========================================================\n[GameLevelModel]\n" + 
-       // "\n> " + holesStr + 
-       // "> " + turnstilesStr + 
-       // "> " + blocksStr + 
         "\n> " + "Grid\n" + gridStr +
         "\nPlayer Location: (" + playerRow + ", " + playerColumn +")" +
         "\nHoles:\n" + holesStr2 + 
@@ -782,7 +763,8 @@ public class GameLevelModel
 
                     Boolean passThroughIsGood = (passThroughType.equals(GameSquare.SquareType.EMPTY) || 
                                                  passThroughType.equals(GameSquare.SquareType.HOLE)  ||
-                                                 passThroughType.equals(GameSquare.SquareType.PLAYER));
+                                                 passThroughType.equals(GameSquare.SquareType.PLAYER) &&
+                                                 ! passThroughType.equals(GameSquare.SquareType.TURNSTILE));
 
                     System.out.println(debug + "passThroughIsGood: " + passThroughIsGood);
 
@@ -1027,16 +1009,32 @@ public class GameLevelModel
             String debug = "[debug] [GameLevelModel::ableToShift] ";
             System.out.println(debug + "Checking if able to shift blocks.");
             int destinationRow, destinationCol;
+            Boolean validShift = true;
             for (int i = 0; i < collection.size(); i++)
             {
-                //Block b = (Block) collection.get(i);
                 GameSquare b = collection.get(i);
+                System.out.println(debug + "Checking " + b.getRow() + ", " + b.getColumn());
                 destinationRow = getDestinationRow(direction, b.getRow());
                 destinationCol = getDestinationColumn(direction, b.getColumn());
                 GameSquare destination = grid[destinationRow][destinationCol];
-                Boolean validShift = destination.getType().equals(GameSquare.SquareType.EMPTY) || 
-                                     destination.getType().equals(GameSquare.SquareType.HOLE)  ||
-                                     destination.getType().equals(GameSquare.SquareType.BLOCK);
+
+                if (destination.getType().equals(GameSquare.SquareType.BLOCK)) {
+                    boolean collectionContainsBlockDestination = false;
+                    for (int j = 0; j < collection.size(); j++)  {
+                        if (collection.get(j).equalTo(destinationRow, destinationCol, destination.getType()))
+                            collectionContainsBlockDestination = true;
+                    }
+                    System.out.println(debug + "Collection contains block destination: " + collectionContainsBlockDestination);
+                    if (! collectionContainsBlockDestination)
+                        return false;
+                }
+
+                validShift = destination.getType().equals(GameSquare.SquareType.EMPTY) || 
+                             destination.getType().equals(GameSquare.SquareType.HOLE)  ||
+                             destination.getType().equals(GameSquare.SquareType.BLOCK);
+                            // we've already determined whether the block is in our collection or not
+
+                System.out.println(debug + "VALID SHIFT:" + validShift);
                 if (! validShift)
                     return false;
             }
