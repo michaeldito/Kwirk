@@ -4,7 +4,7 @@ public class Application
 {
     public static void main(String[] args)
     {
-        String debug = "[debug] [Application::main] ";
+        String debug = "[Application::main] ";
         System.out.println(debug + "Application is starting up.");
 
         Queue<GameLevelModel> models = new LinkedList<GameLevelModel>();
@@ -14,8 +14,6 @@ public class Application
 
         GameplayController controller = new GameplayController();
 
-        // System.out.println(debug + "Connecting view to model.");
-        // model.addView(view);
 
         System.out.println(debug + "Connecting model to controller.");
         controller.addModels(models);

@@ -28,3 +28,18 @@ around them.
 Blocks set on an axis that turn 90 degress when pushed. They come in single, double,
 triple, and quadruple variations. They cannot turn if something is blocking their
 radius of movement.
+
+# Ideas
+``` 
+  while initially scanning in the grid from a file:
+    if square is a hole || pivot || block:
+      place into temp array
+    continue scanning and populating grid
+  when finished scanning grid:
+    for all hole || pivot || block temp arrays:
+      for each pivot:
+        add pivot to turnstile gamesquare collection
+        if NSEW neighbor of pivot is a turnstile:
+          add neighbor to a the collection
+      
+      

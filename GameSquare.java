@@ -116,7 +116,7 @@ public class GameSquare
         return true;
     }
 
-    protected void paintTopBorder(Graphics2D g2)
+    public void paintTopBorder(Graphics2D g2)
     {
         g2.setPaint (Color.BLACK);
         int startX, startY, endX, endY;
@@ -127,7 +127,7 @@ public class GameSquare
         g2.drawLine(startX, startY, endX, endY);
     }
 
-    protected void paintBottomBorder(Graphics2D g2)
+    public void paintBottomBorder(Graphics2D g2)
     {
         g2.setPaint (Color.BLACK);
         int startX, startY, endX, endY;
@@ -139,7 +139,7 @@ public class GameSquare
     }
 
 
-    protected void paintLeftBorder(Graphics2D g2)
+    public void paintLeftBorder(Graphics2D g2)
     {
         g2.setPaint (Color.BLACK);
         int startX, startY, endX, endY;
@@ -150,7 +150,7 @@ public class GameSquare
         g2.drawLine(startX, startY, endX, endY); 
     }
 
-    protected void paintRightBorder(Graphics2D g2)
+    public void paintRightBorder(Graphics2D g2)
     {
         g2.setPaint (Color.BLACK);
         int startX, startY, endX, endY;

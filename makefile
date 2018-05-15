@@ -28,7 +28,7 @@ m r:
 	make run
 	
 run:
-	java Application $(LEVELS)
+	java Application L8.csv L9.csv L10.csv L11.csv L12.csv L13.csv L14.csv #$(LEVELS)
 
 bnr:
 	make clean

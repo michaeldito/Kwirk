@@ -5,8 +5,6 @@ import java.awt.*;
 
 public class GameLevelModel
 {
-    public Thread mainThread;
-
     private View view;
 
     public final static int NUM_ROWS = 16;
@@ -532,6 +530,7 @@ public class GameLevelModel
             turnstiles.get(i).paintBorders(g2);
         for (int i = 0; i < blocks.size(); i++)        
             blocks.get(i).paintBorders(g2);
+
     }
 
     public abstract class GameSquareCollection
@@ -684,9 +683,24 @@ public class GameLevelModel
                     GameSquare.SquareType destinationType = destination.getType();
                     GameSquare.SquareType passThroughType = passThrough.getType();
 
+                    // Is the destination a turnstile in another turnstile collection?
+                    if (destinationType.equals(GameSquare.SquareType.TURNSTILE))
+                    {
+                        Boolean collectionContainsTurnstileDestination = false;
+                        for (int j = 0; j < collection.size(); j++)
+                        {
+                            if (collection.get(j).equalTo(destinationRow, destinationCol, destinationType))
+                                collectionContainsTurnstileDestination = true;
+                        }
+                        System.out.println(debug + "Collection contains turnstile destination: " + collectionContainsTurnstileDestination);
+                        if (! collectionContainsTurnstileDestination)
+                            return false;
+                    }
+    
                     Boolean destinationIsGood = (destinationType.equals(GameSquare.SquareType.EMPTY) || 
                                                  destinationType.equals(GameSquare.SquareType.HOLE)  ||
                                                  destinationType.equals(GameSquare.SquareType.TURNSTILE));
+                                                 // at this point we've vertified the turnstile is in this collection
 
                     System.out.println(debug + "destinationIsGood: " + destinationIsGood);
 
@@ -752,8 +766,23 @@ public class GameLevelModel
 
                     GameSquare destination = grid[destinationRow][destinationCol];
                     GameSquare passThrough = grid[passThroughRow][passThroughCol];
+                    
                     GameSquare.SquareType destinationType = destination.getType();
                     GameSquare.SquareType passThroughType = passThrough.getType();
+
+                    // Is the destination a turnstile in another turnstile collection?
+                    if (destinationType.equals(GameSquare.SquareType.TURNSTILE))
+                    {
+                        Boolean collectionContainsTurnstileDestination = false;
+                        for (int j = 0; j < collection.size(); j++)
+                        {
+                            if (collection.get(j).equalTo(destinationRow, destinationCol, destinationType))
+                                collectionContainsTurnstileDestination = true;
+                        }
+                        System.out.println(debug + "Collection contains turnstile destination: " + collectionContainsTurnstileDestination);
+                        if (! collectionContainsTurnstileDestination)
+                            return false;
+                    }
 
                     Boolean destinationIsGood = (destinationType.equals(GameSquare.SquareType.EMPTY) || 
                                                  destinationType.equals(GameSquare.SquareType.HOLE)  ||

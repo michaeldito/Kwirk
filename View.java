@@ -10,6 +10,11 @@ public class View extends JFrame
     private GamePanel gamePanel;
     private Font buttonFont = new Font("Monospaced", Font.BOLD, 13);
 
+    public void addBar()
+    {
+        gamePanel.bar.addBar();
+    }
+
     public View()
     {
     }
@@ -26,13 +31,13 @@ public class View extends JFrame
 
     public void updatePanel()
     {
-        String debug = "[debug] [View::updatePanel] ";
+        String debug = "[View::updatePanel] ";
         System.out.println(debug + "Updating the GamePanel");
 
         Container contentPane = getContentPane();
-        contentPane.remove(gamePanel);
-        gamePanel = new GamePanel(model);
-        contentPane.add(gamePanel);
+        //contentPane.remove(gamePanel);
+        gamePanel.setModel(model);
+        //contentPane.add(gamePanel);
         pack();
         controller.displayGame();
 
@@ -41,7 +46,7 @@ public class View extends JFrame
 
     public void build()
     {
-        String debug = "[debug] [View::build] ";
+        String debug = "[View::build] ";
         System.out.println(debug + "Building the view.");
 
         addWindowListener(new WindowAdapter() {

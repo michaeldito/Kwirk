@@ -12,7 +12,7 @@ public class LevelBuilder
   {
     try
     {
-        String debug = "[debug] [LevelBuilder::buildOneLevel] ";
+        String debug = "[LevelBuilder::buildOneLevel] ";
         System.out.println(debug + "Beginning to build " + arg);
         GameLevelModel model = new GameLevelModel();
         GameSquare[][] grid = new GameSquare[GameLevelModel.NUM_ROWS][GameLevelModel.NUM_COLS];

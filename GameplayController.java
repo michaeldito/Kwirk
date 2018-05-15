@@ -23,7 +23,7 @@ public class GameplayController //implements KeyListener
 
   public void move(String direction)
   {
-    String debug = "[debug] [GameplayController::move] ";
+    String debug = "[GameplayController::move] ";
     System.out.println("========================================================");
     if (currentLevelModel.ableToMove(direction)) {
       System.out.println(debug + "ableToMove() => true");
@@ -32,6 +32,7 @@ public class GameplayController //implements KeyListener
       if (currentLevelModel.isLevelComplete()) {
         nextLevel();
         currentLevel++;
+        view.addBar();
       }
       view.repaint();
     }
@@ -132,7 +133,7 @@ public class GameplayController //implements KeyListener
     b.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e)
       {
-        System.out.println("[debug] [GameplayController] Reset button pressed.");
+        System.out.println("[GameplayController] Reset button pressed.");
         restartLevel();
       }
     });
@@ -147,7 +148,7 @@ public class GameplayController //implements KeyListener
     b.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e)
       {
-        System.out.println("[debug] [GameplayController] Undo button pressed.");
+        System.out.println("[GameplayController] Undo button pressed.");
         undoMove();
       }
     });
@@ -162,7 +163,7 @@ public class GameplayController //implements KeyListener
     b.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e)
       {
-        System.out.println("[debug] [GameplayController] Quit button pressed.");
+        System.out.println("[GameplayController] Quit button pressed.");
         // quit and return to main menu
       }
     });
@@ -173,7 +174,7 @@ public class GameplayController //implements KeyListener
   public void displayGame()
   {
     //System.out.println(currentLevelModel);
-    System.out.println("[debug] [GameplayController::displayGame] Repainting the view.");
+    System.out.println("[GameplayController::displayGame] Repainting the view.");
     view.repaint();
   }
 
@@ -202,7 +203,7 @@ public class GameplayController //implements KeyListener
   //       else if (direction.equals("d"))
   //         controller.move("RIGHT");
   //       else
-  //         System.out.println("[debug]  Invalid move! use a w s d");
+  //         System.out.println(" Invalid move! use a w s d");
   //     }
   //     System.out.println("\nYou win!\n");
   //   }

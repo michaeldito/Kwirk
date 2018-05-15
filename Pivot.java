@@ -23,9 +23,4 @@ public class Pivot extends Turnstile
         background.paintComponent(g2);
         shape.paintComponent(g2);
     }
-
-    public void paintComponent()
-    {
-        // TODO
-    }
 }

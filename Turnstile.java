@@ -15,6 +15,9 @@ public class Turnstile extends GameSquare
         shape = new Square(SHAPE_SIDE, CENTER_X + SHAPE_SIDE * (column + 1), CENTER_Y + SHAPE_SIDE * (row + 1), Color.BLUE);
     }
 
+    public void makeOrange() { shape.setColor(Color.ORANGE); }
+    public void makeBlue()   { shape.setColor(Color.BLUE);   }
+
     public void paintTopBorder(Graphics2D g2)
     {
         g2.setPaint (Color.BLACK);

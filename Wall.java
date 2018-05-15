@@ -7,14 +7,17 @@ public class Wall extends GameSquare
     {
     }
 
+    Color green1 = new Color (73, 156, 0);
+    Color green2 = new Color (51, 102, 0);
+
     public Wall(int r, int c)
     {
         type = SquareType.WALL;
         row = r;
         column = c;
         strValue = "XX";
-        shape = new Square(SHAPE_SIDE, CENTER_X + SHAPE_SIDE * (column + 1), CENTER_Y + SHAPE_SIDE * (row + 1), Color.GRAY);
-        shape2 = new Right(SHAPE_SIDE - 5, CENTER_X + SHAPE_SIDE * (column + 1) - 7, CENTER_Y + 7 + SHAPE_SIDE * (row + 1), Color.DARK_GRAY);
+        shape = new Square(SHAPE_SIDE, CENTER_X + SHAPE_SIDE * (column + 1), CENTER_Y + SHAPE_SIDE * (row + 1), green1);
+        shape2 = new Right(SHAPE_SIDE - 5, CENTER_X + SHAPE_SIDE * (column + 1) - 7, CENTER_Y + 7 + SHAPE_SIDE * (row + 1), green2);
     }
     public void paintComponent(Graphics2D g2)
     {
