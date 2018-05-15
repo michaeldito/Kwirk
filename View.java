@@ -8,6 +8,7 @@ public class View extends JFrame
 	private GameLevelModel model;
     private GameplayController controller;
     private GamePanel gamePanel;
+    private MenuPanel menu;
     private Font buttonFont = new Font("Monospaced", Font.BOLD, 13);
 
     public void addBar()
@@ -62,7 +63,9 @@ public class View extends JFrame
         gamePanel.addKeyListener(controller.getGamePanelKeyListener());
 
         Container contentPane = getContentPane();
-        contentPane.add(gamePanel, "Center");
+        menu = new MenuPanel();
+        contentPane.add(menu);
+        //contentPane.add(gamePanel, "Center");
 
         addKeyListener(controller.getGamePanelKeyListener());
 

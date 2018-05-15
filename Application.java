@@ -14,7 +14,6 @@ public class Application
 
         GameplayController controller = new GameplayController();
 
-
         System.out.println(debug + "Connecting model to controller.");
         controller.addModels(models);
 
