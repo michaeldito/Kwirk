@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class Application
+public class Kwirk
 {
     public static void main(String[] args)
     {
@@ -8,7 +8,7 @@ public class Application
         System.out.println(debug + "Application is starting up.");
 
         Queue<GameLevelModel> models = new LinkedList<GameLevelModel>();
-        models = LevelBuilder.buildAllLevels(args);
+        models = LevelBuilder.buildAllLevels();
 
         View view = new View();
 
@@ -31,7 +31,5 @@ public class Application
 
         System.out.println(debug + "Displaying the view.");
         view.display();
-
-        
     }
 }

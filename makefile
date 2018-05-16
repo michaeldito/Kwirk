@@ -1,22 +1,23 @@
 GAMESQUARES = GameSquare.class Player.class Wall.class Hole.class Turnstile.class Pivot.class Stairs.class
 SHAPES = Shape.class Triangle.class Quadrilateral.class Square.class Right.class
 LEVELS = L1.csv L2.csv L3.csv L4.csv L5.csv L6.csv L7.csv L8.csv L9.csv L10.csv L11.csv L12.csv L13.csv L14.csv
-all: $(GAMESQUARES) $(SHAPES) GameLevelModel.class LevelBuilder.class GameplayController.class View.class Application.class
+all: $(GAMESQUARES) $(SHAPES) GameLevelModel.class LevelBuilder.class GameplayController.class View.class Kwirk.class
 
 submit:
 	mkdir ditoP
-	make all
-	cp *.class ditoP
-	cp makefile ditoP
-	cp manifest.txt ditoP
 	cp ditoPI.pdf ditoP
 	cp ditoPN.pdf ditoP
 	cp ditoP.txt ditoP
-	cp L[1-5].csv ditoP
-	cd ditoP
-	jar cvmf ditoP/manifest.txt ditoP.jar *.class ditoP/L[1-5].csv
-	tar cfvz ditoP.tgz ditoP
-	cp ditoP.tgz ~tiawatts/cs360drop
+	#cp ditoP.bmp ditoP
+	make jarIt
+	cp ditoP.jar ditoP
+	tar -czvf ditoP.tgz ditoP
+	# cp ditoP.tgz ~tiawatts/cs360drop
+
+
+jarIt:
+	make all
+	jar cvfm ditoP.jar manifest.txt *.class KwirkCover.png L*.csv
 
 c:
 	make clean
@@ -28,16 +29,16 @@ m r:
 	make run
 	
 run:
-	java Application L8.csv L9.csv L10.csv L11.csv L12.csv L13.csv L14.csv #$(LEVELS)
+	java Kwirk $(LEVELS)
 
 bnr:
 	make clean
 	make all
 	make run
 
-# Application
-Application.class: Application.java GameLevelModel.class LevelBuilder.class View.class GameplayController.class
-	javac Application.java
+# Kwirk
+Kwirk.class: Kwirk.java GameLevelModel.class LevelBuilder.class View.class GameplayController.class
+	javac Kwirk.java
 
 # Builder
 LevelBuilder.class: LevelBuilder.java GameLevelModel.class

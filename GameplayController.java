@@ -44,11 +44,16 @@ public class GameplayController //implements KeyListener
 
   public void nextLevel()
   {
+    if (levels.size() == 0) {
+      hasMoreLevels = false;
+      view.displayVictoryScreen();
+      return;
+    }
+
     states.clear();
     currentLevelModel = levels.remove();
     currentLevelModelBackup = new GameLevelModel(currentLevelModel);
-    if (levels.size() == 0)
-      hasMoreLevels = false;
+
 
     view.addModel(currentLevelModel);
     view.updatePanel();
@@ -164,7 +169,22 @@ public class GameplayController //implements KeyListener
       public void actionPerformed(ActionEvent e)
       {
         System.out.println("[GameplayController] Quit button pressed.");
-        // quit and return to main menu
+        System.exit(0);
+      }
+    });
+
+    return b;
+  }
+
+  JButton getMenuButton()
+  {
+    JButton b = new JButton();
+
+    b.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e)
+      {
+        System.out.println("[GameplayController] Menu Button pressed.");
+        MenuDialog menuDialog = new MenuDialog(view, true);
       }
     });
 

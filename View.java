@@ -9,15 +9,38 @@ public class View extends JFrame
     private GameplayController controller;
     private GamePanel gamePanel;
     private MenuPanel menu;
+    private VictoryPanel victory;
+    private JMenuBar menuBar = new JMenuBar();
+    private JMenu fileMenu = new JMenu("File");
     private Font buttonFont = new Font("Monospaced", Font.BOLD, 13);
+    public String name;
+    private JPanel controls = new JPanel();
+
 
     public void addBar()
     {
         gamePanel.bar.addBar();
     }
 
+    public void addName(String n)
+    {
+        name = n;
+        System.out.println("[View] added name: " + n);
+    }
+
     public View()
     {
+    }
+
+    public void displayVictoryScreen()
+    {
+        victory = new VictoryPanel();
+        Container contentPane = getContentPane();
+        contentPane.removeAll();
+        contentPane.revalidate();
+        contentPane.add(victory, "Center");
+        pack();
+        controller.displayGame();
     }
 
     public void addModel(GameLevelModel m)
@@ -30,15 +53,35 @@ public class View extends JFrame
         controller = c;
     }
 
+    public void playGame()
+    {
+        Container contentPane = getContentPane();
+        contentPane.remove(menu);
+        contentPane.add(gamePanel, "Center");
+
+        controls.removeAll();
+        controls.revalidate();
+
+        buttonSetup(controls, controller.getRestartButton(), "RESTART");
+        buttonSetup(controls, controller.getUndoButton(), "UNDO");
+        buttonSetup(controls, controller.getQuitButton(), "QUIT");
+
+        JLabel nameLabel = new JLabel("Player: " + name);
+        nameLabel.setFont(new Font("Monospaced", Font.BOLD, 13));
+        controls.add(nameLabel, "South");
+
+        pack();
+        controller.displayGame();
+    }
+
     public void updatePanel()
     {
         String debug = "[View::updatePanel] ";
         System.out.println(debug + "Updating the GamePanel");
 
         Container contentPane = getContentPane();
-        //contentPane.remove(gamePanel);
         gamePanel.setModel(model);
-        //contentPane.add(gamePanel);
+
         pack();
         controller.displayGame();
 
@@ -49,6 +92,18 @@ public class View extends JFrame
     {
         String debug = "[View::build] ";
         System.out.println(debug + "Building the view.");
+
+        menuBar.add(fileMenu);
+        JMenuItem quitItem = new JMenuItem("Quit");
+        quitItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e)
+            {
+              System.out.println("[View] File - Quit pressed.");
+              System.exit(0);
+            }
+          });
+        fileMenu.add(quitItem);
+        setJMenuBar(menuBar);
 
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent event)
@@ -63,18 +118,15 @@ public class View extends JFrame
         gamePanel.addKeyListener(controller.getGamePanelKeyListener());
 
         Container contentPane = getContentPane();
+
         menu = new MenuPanel();
-        contentPane.add(menu);
-        //contentPane.add(gamePanel, "Center");
+        contentPane.add(menu, "Center");
 
         addKeyListener(controller.getGamePanelKeyListener());
 
-        JPanel controls = new JPanel();
         controls.setLayout(new FlowLayout(FlowLayout.CENTER));
 
-        buttonSetup(controls, controller.getRestartButton(), "RESTART");
-        buttonSetup(controls, controller.getUndoButton(), "UNDO");
-        buttonSetup(controls, controller.getQuitButton(), "QUIT");
+        buttonSetup(controls, controller.getMenuButton(), "MENU");
         contentPane.add(controls, "South");
 
         pack();

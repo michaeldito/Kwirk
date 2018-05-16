@@ -5,16 +5,16 @@ import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import java.awt.TexturePaint;
 
-class MenuPanel extends JPanel
+class VictoryPanel extends JPanel
 {
     private Image image;
     private BufferedImage bufferedImage;
     private TexturePaint texture;
     Rectangle rect;
 
-    public MenuPanel()
+    public VictoryPanel()
     {
-        image = new ImageIcon(getClass().getResource("KwirkCover.png")).getImage();
+        image = new ImageIcon(getClass().getResource("Victory.png")).getImage();
         bufferedImage = toBufferedImage(image, image.getWidth(null), image.getHeight(null));
         setPreferredSize(new Dimension(695, 700));
         rect = new Rectangle(0, 0, image.getWidth(null), image.getHeight(null));
