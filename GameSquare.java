@@ -1,6 +1,3 @@
-/* GameSquare.java
- *
- */
 import java.awt.*;
 
 public class GameSquare 
@@ -179,33 +176,5 @@ public class GameSquare
             return new Stairs(r, c);
         else
             return new GameSquare(r, c);
-    }
-
-    public static void main(String[] args)
-    {
-        GameSquare player = GameSquare.create(SquareType.PLAYER, 0, 0);
-        GameSquare wall = GameSquare.create(SquareType.WALL, 0, 0);
-        GameSquare block = GameSquare.create(SquareType.BLOCK, 0, 0);
-        GameSquare hole = GameSquare.create(SquareType.HOLE, 0, 0);
-        GameSquare turnstile = GameSquare.create(SquareType.TURNSTILE, 0, 0);
-        GameSquare pivot = GameSquare.create(SquareType.PIVOT, 0, 0);
-        GameSquare stairs = GameSquare.create(SquareType.STAIRS, 0, 0);
-        GameSquare empty = GameSquare.create(SquareType.EMPTY, 0, 0);
-        
-        System.out.println(player);
-        System.out.println();
-        System.out.println(wall);
-        System.out.println();
-        System.out.println(block);
-        System.out.println();
-        System.out.println(hole);
-        System.out.println();
-        System.out.println(turnstile);
-        System.out.println();
-        System.out.println(pivot);
-        System.out.println();
-        System.out.println(stairs);
-        System.out.println();
-        System.out.println(empty);
     }
 }

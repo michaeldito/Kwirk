@@ -38,27 +38,21 @@ bnr:
 	make all
 	make run
 
-# Kwirk
 Kwirk.class: Kwirk.java GameLevelModel.class LevelBuilder.class View.class GameplayController.class
 	javac Kwirk.java
 
-# Builder
 LevelBuilder.class: LevelBuilder.java GameLevelModel.class
 	javac LevelBuilder.java
 
-# Model
 GameLevelModel.class: GameLevelModel.java $(GAMESQUARES)
 	javac GameLevelModel.java
 
-# View
 View.class: View.java
 	javac View.java
 
-# Controller
 GameplayController.class: GameplayController.java GameLevelModel.class
 	javac GameplayController.java
 
-# GameSquares
 GameSquare.class: GameSquare.java
 	javac GameSquare.java
 Player.class: Player.java GameSquare.class Circle.class
@@ -76,7 +70,6 @@ Pivot.class: Pivot.java Turnstile.class GameSquare.class Circle.class
 Stairs.class: Stairs.java GameSquare.class Right.class
 	javac Stairs.java
 
-# Shapes
 Shape.class: Shape.java
 	javac Shape.java
 Circle.class: Circle.java Shape.class

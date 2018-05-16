@@ -3,13 +3,17 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class GameplayController //implements KeyListener
+import javax.imageio.*;
+
+public class GameplayController
 {
   public GameLevelModel currentLevelModel;
   private GameLevelModel currentLevelModelBackup;
   private Queue<GameLevelModel> levels;
   private Stack<GameLevelModel> states;
+
   private View view;
+
   public Boolean hasMoreLevels = true;
   public int currentLevel = 1;
 
@@ -21,10 +25,16 @@ public class GameplayController //implements KeyListener
     states = new Stack<GameLevelModel>();
   }
 
+  public void playAs(String character)
+  {
+    currentLevelModel.setPlayerCharacter(character);
+  }
+
   public void move(String direction)
   {
     String debug = "[GameplayController::move] ";
     System.out.println("========================================================");
+
     if (currentLevelModel.ableToMove(direction)) {
       System.out.println(debug + "ableToMove() => true");
       states.add(new GameLevelModel(this.currentLevelModel));
@@ -38,6 +48,7 @@ public class GameplayController //implements KeyListener
     }
     else
       System.out.println(debug + "ableToMove() => false");
+
     System.out.println("======================= Level " + currentLevel + " ========================");
     System.out.println(currentLevelModel);
   }
@@ -53,7 +64,6 @@ public class GameplayController //implements KeyListener
     states.clear();
     currentLevelModel = levels.remove();
     currentLevelModelBackup = new GameLevelModel(currentLevelModel);
-
 
     view.addModel(currentLevelModel);
     view.updatePanel();
@@ -134,6 +144,8 @@ public class GameplayController //implements KeyListener
   JButton getRestartButton()
   {
     JButton b = new JButton();
+    b.setBorder(BorderFactory.createLineBorder(Color.BLACK, 4));
+    b.setPreferredSize(new Dimension(120, 40));
 
     b.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e)
@@ -149,7 +161,8 @@ public class GameplayController //implements KeyListener
   JButton getUndoButton()
   {
     JButton b = new JButton();
-
+    b.setBorder(BorderFactory.createLineBorder(Color.BLACK, 4));
+    b.setPreferredSize(new Dimension(120, 40));
     b.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e)
       {
@@ -164,6 +177,8 @@ public class GameplayController //implements KeyListener
   JButton getQuitButton()
   {
     JButton b = new JButton();
+    b.setBorder(BorderFactory.createLineBorder(Color.BLACK, 4));
+    b.setPreferredSize(new Dimension(120, 40));
 
     b.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e)
@@ -179,7 +194,17 @@ public class GameplayController //implements KeyListener
   JButton getMenuButton()
   {
     JButton b = new JButton();
+    b.setBorder(BorderFactory.createLineBorder(Color.BLACK, 4));
 
+    try {
+      Image img = ImageIO.read(getClass().getResource("startbutton.png"));
+      b.setIcon(new ImageIcon(img));
+      b.setPreferredSize(new Dimension(img.getWidth(null)+50, 70));
+
+    } catch(Exception e) {
+      System.out.println("[ERROR] unable to assign startbutton.png to startbutton");
+    }
+    
     b.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e)
       {

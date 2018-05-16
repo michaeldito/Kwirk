@@ -30,7 +30,11 @@ class MenuPanel extends JPanel
         g2.setPaint(texture);
         g2.setPaint (texture);
         g2.fillRect(0, 0, 695, 700);
+        Stroke previousSroke = g2.getStroke();
+        g2.setStroke(new BasicStroke(4.0f));
+        g2.setStroke(previousSroke);
         g2.setPaint (Color.BLACK);
+        
         repaint();
     }
 

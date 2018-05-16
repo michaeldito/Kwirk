@@ -21,6 +21,10 @@ public class GameLevelModel
     public Boolean isLevelComplete() { return isLevelComplete; }
 
     public Player getPlayer() { return (Player) grid[playerRow][playerColumn]; }
+    public void setPlayerCharacter(String character)
+    {
+        getPlayer().setShape(character);
+    }
 
     public GameLevelModel()
     { 
@@ -195,7 +199,6 @@ public class GameLevelModel
         Blocks c = new Blocks();
         for (int i = 0; i < bc.size(); i++)
             c.add(bc.get(i));
-            //c.add((Block) bc.get(i));
         blocks.add(c);
     }
 
@@ -231,8 +234,7 @@ public class GameLevelModel
             System.out.println("[ERROR] in GameLevelModel::getDestinationColumn - invalid direction");
             return -1;
         } 
-    }
-    public Boolean ableToMove(String direction)
+    }public Boolean ableToMove(String direction)
     {
         String debug = "[debug] [GameLevelModel::ableToMove] ";
         System.out.println(debug + "Checking if able to move " + direction);

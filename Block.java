@@ -1,3 +1,8 @@
+/* Block.java
+ *
+ * This class represents a gamesquare that is a block.
+ */
+
 import java.awt.*;
 
 public class Block extends GameSquare

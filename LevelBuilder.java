@@ -10,18 +10,21 @@ public class LevelBuilder
 
   public static GameLevelModel buildOneLevel(String arg)
   {
+    String debug = "[LevelBuilder::buildOneLevel] ";
+    System.out.println(debug + "Beginning to build " + arg);
+
     try
     {
-        String debug = "[LevelBuilder::buildOneLevel] ";
-        System.out.println(debug + "Beginning to build " + arg);
         GameLevelModel model = new GameLevelModel();
         GameSquare[][] grid = new GameSquare[GameLevelModel.NUM_ROWS][GameLevelModel.NUM_COLS];
+
         InputStream in = LevelBuilder.class.getResourceAsStream("/" + arg);
         BufferedReader inFile = new BufferedReader (new InputStreamReader(in));
+
         for (int i = 0; i < GameLevelModel.NUM_ROWS; i++) 
         {
           String string = inFile.readLine();
-          System.out.println(debug + "Current Line: " + string);
+          System.out.println(debug + string);
           String[] parts = string.split(",", 0);
           int count = parts.length;
           for (int j = 0; j < count; j++)
@@ -49,6 +52,7 @@ public class LevelBuilder
                 grid[i][j] = GameSquare.create(GameSquare.SquareType.STAIRS, i, j);
           }
         }
+
         model.setGrid(grid);
 
         String s1 = inFile.readLine();
@@ -101,8 +105,10 @@ public class LevelBuilder
             System.out.println("[ERROR] in LevelBuilder::buildOneLevel - error parsing collection type.");
           }
         }
+
       inFile.close();
       System.out.println(debug + "Complete.");
+      
       return model;
     }
     catch (IOException e)

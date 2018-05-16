@@ -1,8 +1,3 @@
-// File: Circle.java
-// Author: Dr. Watts
-// Contents: This file contains the description and implementation
-// of a class called Circle. 
-
 import static java.lang.Math.*;
 import java.awt.*;
 import javax.swing.*;
@@ -38,7 +33,6 @@ public final class Circle extends Shape
 		g2.setPaint (color);
 		g2.fillOval (centerX-side, centerY-side, 2*side, 2*side);
 		g2.drawOval (centerX-side, centerY-side, 2*side, 2*side);
-
 		Stroke previousStroke = g2.getStroke();
 		g2.setStroke(new BasicStroke(4.0f));
 		g2.setPaint (Color.BLACK);

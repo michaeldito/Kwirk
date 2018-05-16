@@ -12,10 +12,9 @@ public class View extends JFrame
     private VictoryPanel victory;
     private JMenuBar menuBar = new JMenuBar();
     private JMenu fileMenu = new JMenu("File");
-    private Font buttonFont = new Font("Monospaced", Font.BOLD, 13);
+    private Font buttonFont = new Font("Monospaced", Font.BOLD, 16);
     public String name;
     private JPanel controls = new JPanel();
-
 
     public void addBar()
     {
@@ -67,8 +66,11 @@ public class View extends JFrame
         buttonSetup(controls, controller.getQuitButton(), "QUIT");
 
         JLabel nameLabel = new JLabel("Player: " + name);
-        nameLabel.setFont(new Font("Monospaced", Font.BOLD, 13));
-        controls.add(nameLabel, "South");
+        nameLabel.setFont(new Font("Monospaced", Font.BOLD, 16));
+        nameLabel.setBackground(Color.WHITE);
+        nameLabel.setHorizontalAlignment(JLabel.CENTER);
+        contentPane.add(nameLabel, "North");
+        contentPane.setBackground(Color.WHITE);
 
         pack();
         controller.displayGame();
@@ -78,13 +80,9 @@ public class View extends JFrame
     {
         String debug = "[View::updatePanel] ";
         System.out.println(debug + "Updating the GamePanel");
-
-        Container contentPane = getContentPane();
         gamePanel.setModel(model);
-
         pack();
         controller.displayGame();
-
         System.out.println(debug + "Complete.");
     }
 
@@ -126,9 +124,10 @@ public class View extends JFrame
 
         controls.setLayout(new FlowLayout(FlowLayout.CENTER));
 
-        buttonSetup(controls, controller.getMenuButton(), "MENU");
+        buttonSetup(controls, controller.getMenuButton(), "");
         contentPane.add(controls, "South");
 
+        controls.setBackground(Color.WHITE);
         pack();
         controller.displayGame();
         System.out.println(debug + "View building complete.");

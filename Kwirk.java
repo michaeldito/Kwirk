@@ -14,7 +14,7 @@ public class Kwirk
 
         GameplayController controller = new GameplayController();
 
-        System.out.println(debug + "Connecting model to controller.");
+        System.out.println(debug + "Connecting models to controller.");
         controller.addModels(models);
 
         System.out.println(debug + "Connecting view to controller.");
