@@ -17,7 +17,7 @@ class MenuPanel extends JPanel
         image = new ImageIcon(getClass().getResource("KwirkCover.png")).getImage();
         bufferedImage = toBufferedImage(image, image.getWidth(null), image.getHeight(null));
         setPreferredSize(new Dimension(695, 700));
-        rect = new Rectangle(0, 0, image.getWidth(null), image.getHeight(null));
+        rect = new Rectangle(0, 0, 695, 700);
         texture = new TexturePaint(bufferedImage, rect);
         repaint();
     }
@@ -43,7 +43,7 @@ class MenuPanel extends JPanel
         int h = image.getHeight(null);
         BufferedImage bimage = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
         Graphics2D bGr = bimage.createGraphics();
-        bGr.drawImage(image, 0, 0, w, h, 0, 0, w, h, null);
+        bGr.drawImage(image, 0, 0, 695, 700, 0, 0, 695, 700, null);
         bGr.dispose();
         return bimage;
     }

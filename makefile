@@ -8,16 +8,15 @@ submit:
 	cp ditoPI.pdf ditoP
 	cp ditoPN.pdf ditoP
 	cp ditoP.txt ditoP
-	#cp ditoP.bmp ditoP
-	make jarIt
+	cp ditoP.bmp ditoP
 	cp ditoP.jar ditoP
 	tar -czvf ditoP.tgz ditoP
-	# cp ditoP.tgz ~tiawatts/cs360drop
+	cp ditoP.tgz ~tiawatts/cs360drop
 
-
-jarIt:
+toBlue:
 	make all
-	jar cvfm ditoP.jar manifest.txt *.class KwirkCover.png L*.csv
+	jar cvfm ditoP.jar manifest.txt *.class KwirkCover.png Victory.png L*.csv
+	scp ditoP.jar mdito@blue.cs.sonoma.edu:~/cs360s18/Kwirk
 
 c:
 	make clean

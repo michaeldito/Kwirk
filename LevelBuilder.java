@@ -118,9 +118,8 @@ public class LevelBuilder
 
   public static Queue<GameLevelModel> buildAllLevels()
   {
-    //String[] fileNames = { "L11.csv", "L1.csv", "L2.csv", "L3.csv", "L4.csv", "L6.csv", "L7.csv", "L5.csv", "L8.csv", 
-    //  "L9.csv", "L10.csv", "L13.csv", "L14.csv", "L12.csv" };
-    String[] fileNames = { "L1.csv" };
+    String[] fileNames = { "L11.csv", "L1.csv", "L2.csv", "L3.csv", "L4.csv", "L6.csv", "L7.csv", "L5.csv", "L8.csv", 
+      "L9.csv", "L10.csv", "L13.csv", "L14.csv", "L12.csv" };
     Queue<GameLevelModel> levels = new LinkedList<GameLevelModel>();
     for (int i = 0; i < fileNames.length; i++)
       levels.add(buildOneLevel(fileNames[i]));
