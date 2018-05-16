@@ -193,40 +193,7 @@ public class GameplayController //implements KeyListener
 
   public void displayGame()
   {
-    //System.out.println(currentLevelModel);
     System.out.println("[GameplayController::displayGame] Repainting the view.");
     view.repaint();
   }
-
-
-  // public static void main(String[] args)
-  // {
-  //   LevelBuilder builder = new LevelBuilder();
-  //   GameplayController controller = new GameplayController();
-  //   for (int i = 0; i < args.length; i++) {
-  //     GameLevelModel model = builder.buildOneLevel(args[i]);
-  //     controller.addModel(model);
-  //   }
-  //   Scanner scanner = new Scanner(System.in);
-  //   while (controller.hasMoreLevels) {
-  //     GameLevelModel model = controller.getNextLevel();
-  //     while (! model.isLevelComplete())
-  //     {
-  //       System.out.println(controller.currentLevelModel);
-  //       String direction = scanner.nextLine();
-  //       if (direction.equals("w"))
-  //         controller.move("UP");
-  //       else if (direction.equals("s"))
-  //         controller.move("DOWN");
-  //       else if (direction.equals("a"))
-  //         controller.move("LEFT");
-  //       else if (direction.equals("d"))
-  //         controller.move("RIGHT");
-  //       else
-  //         System.out.println(" Invalid move! use a w s d");
-  //     }
-  //     System.out.println("\nYou win!\n");
-  //   }
-  //   scanner.close();
-  // }
 }

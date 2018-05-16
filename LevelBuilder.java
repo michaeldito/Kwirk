@@ -16,7 +16,8 @@ public class LevelBuilder
         System.out.println(debug + "Beginning to build " + arg);
         GameLevelModel model = new GameLevelModel();
         GameSquare[][] grid = new GameSquare[GameLevelModel.NUM_ROWS][GameLevelModel.NUM_COLS];
-        BufferedReader inFile = new BufferedReader (new FileReader (arg));
+        InputStream in = LevelBuilder.class.getResourceAsStream("/" + arg);
+        BufferedReader inFile = new BufferedReader (new InputStreamReader(in));
         for (int i = 0; i < GameLevelModel.NUM_ROWS; i++) 
         {
           String string = inFile.readLine();

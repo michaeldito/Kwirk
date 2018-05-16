@@ -14,9 +14,12 @@ submit:
 	cp ditoP.tgz ~tiawatts/cs360drop
 
 toBlue:
+	make jarIt
+	scp ditoP.jar mdito@blue.cs.sonoma.edu:~/cs360s18/Kwirk
+
+jarIt:
 	make all
 	jar cvfm ditoP.jar manifest.txt *.class KwirkCover.png Victory.png L*.csv
-	scp ditoP.jar mdito@blue.cs.sonoma.edu:~/cs360s18/Kwirk
 
 c:
 	make clean
